@@ -7,6 +7,7 @@ public class EmployeeMapper {
     public static Employee mapDTO(EmployeeDTO employeeDTO){
         Employee employee = new Employee();
         employee.setName(employee.getName());
+        employee.setDayOffRequests(employeeDTO.getDayOffRequests());
         return employee;
     }
 }
