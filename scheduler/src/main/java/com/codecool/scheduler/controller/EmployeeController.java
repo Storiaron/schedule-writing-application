@@ -22,4 +22,10 @@ public class EmployeeController {
     public void addEmployee(@RequestBody EmployeeDTO employeeDTO){
         employeeService.addEmployee(employeeDTO);
     }
+    @PostMapping("/login")
+    public Employee loginEmployee(@RequestBody EmployeeDTO employeeDTO){
+        Employee employee = employeeService.loginEmployee(employeeDTO);
+        System.out.println(employee);
+        return employee;
+    }
 }
