@@ -4,9 +4,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-public class EmployeeDTO {
-    private String name;
+public class RequestDTO {
+
+    private String employeeName;
+    private LocalDate date;
 }
