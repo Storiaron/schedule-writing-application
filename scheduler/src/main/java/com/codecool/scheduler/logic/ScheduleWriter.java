@@ -10,34 +10,44 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.*;
-@Component
 public class ScheduleWriter {
 
-    private final EmployeeService employeeService;
-    private Map<LocalDate, List<Employee>> schedule = new HashMap<>();
-    private List<Employee> employees;
-    @Autowired
+    protected final EmployeeService employeeService;
+    protected Map<LocalDate, List<Employee>> schedule = new HashMap<>();
+    protected List<Employee> employees;
     public ScheduleWriter(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
     public Map<LocalDate, List<Employee>> createSchedule(int year, int month, List<Day> days){
         employees = employeeService.getAllEmployees();
         orderEmployeesByAvailability();
-        int daysInMonth = YearMonth.of(year, month).lengthOfMonth();
         for(Day day : days){
             scheduleOneDay(day);
         }
         return schedule;
     }
-    private void orderEmployeesByAvailability(){
+    protected void orderEmployeesByAvailability(){
         Collections.sort(employees);
     }
-    private void scheduleOneDay(Day day){
+    protected void scheduleOneDay(Day day){
         List<Employee> scheduledWorkers = new ArrayList<>();
         List<Employee> availableEmployees = getAvailableEmployees(day.getDate());
+        if(availableEmployees.size() >= day.getMinEmployees()){
+            if(availableEmployees.size() >= day.getPreferredEmployees()){
+                scheduledWorkers.addAll(availableEmployees.subList(0, day.getPreferredEmployees() - 1));
+            }
+            else {
+                scheduledWorkers.addAll(availableEmployees.subList(0, availableEmployees.size() - 1));
+            }
+        }
+        else {
+            availableEmployees.addAll(getEmployeesWithMostRequests(day.getMinEmployees() - availableEmployees.size() - 1));
+            scheduledWorkers.addAll(availableEmployees);
+        }
+
         schedule.put(day.getDate(), scheduledWorkers);
     }
-    private List<Employee> getAvailableEmployees(LocalDate date){
+    protected List<Employee> getAvailableEmployees(LocalDate date){
         List<Employee> availableEmployees = new ArrayList<>();
         for(Employee employee : employees){
             if(!employee.getCurrentRequests().stream().anyMatch(request -> request.getDate() == date)){
@@ -45,5 +55,13 @@ public class ScheduleWriter {
             }
         }
         return availableEmployees;
+    }
+
+    protected List<Employee> getEmployeesWithMostRequests(int num){
+        List<Employee> forcedEmployees = new ArrayList<>();
+        for(int i = 0; i < num; i++) {
+            forcedEmployees.add(employees.get(i));
+        }
+        return forcedEmployees;
     }
 }
