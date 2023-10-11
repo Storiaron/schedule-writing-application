@@ -6,7 +6,9 @@ import com.codecool.scheduler.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class EmployeeService {
@@ -28,5 +30,8 @@ public class EmployeeService {
             employee.setName("not found");
         }
         return employee;
+    }
+    public List<Employee> getAllEmployees(){
+        return employeeRepository.findAll();
     }
 }

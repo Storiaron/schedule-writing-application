@@ -11,11 +11,16 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Employee {
+public class Employee implements Comparable<Employee>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Request> currentRequests;
+
+    @Override
+    public int compareTo(Employee o) {
+        return  o.currentRequests.size() - this.currentRequests.size();
+    }
 }
