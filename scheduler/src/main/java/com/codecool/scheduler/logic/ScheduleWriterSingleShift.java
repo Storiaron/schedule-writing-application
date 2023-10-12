@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ScheduleWriterSingleShift extends ScheduleWriter{
-    public ScheduleWriterSingleShift(EmployeeService employeeService) {
-        super(employeeService);
+    public ScheduleWriterSingleShift(EmployeeService employeeService, int shiftLength) {
+        super(employeeService, shiftLength);
     }
 
     @Override
