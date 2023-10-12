@@ -3,12 +3,7 @@ package com.codecool.scheduler.logic;
 import com.codecool.scheduler.model.Day;
 import com.codecool.scheduler.model.Employee;
 import com.codecool.scheduler.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
-import org.springframework.stereotype.Component;
-
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.*;
 public class ScheduleWriter {
 
@@ -18,7 +13,7 @@ public class ScheduleWriter {
     public ScheduleWriter(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
-    public Map<LocalDate, List<Employee>> createSchedule(int year, int month, List<Day> days){
+    public Map<LocalDate, List<Employee>> createSchedule(List<Day> days){
         employees = employeeService.getAllEmployees();
         orderEmployeesByAvailability();
         for(Day day : days){
