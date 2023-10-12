@@ -10,8 +10,10 @@ public class ScheduleWriter {
     protected final EmployeeService employeeService;
     protected Map<LocalDate, List<Employee>> schedule = new HashMap<>();
     protected List<Employee> employees;
-    public ScheduleWriter(EmployeeService employeeService) {
+    protected int shiftLength;
+    public ScheduleWriter(EmployeeService employeeService, int shiftLength) {
         this.employeeService = employeeService;
+        this.shiftLength = shiftLength;
     }
     public Map<LocalDate, List<Employee>> createSchedule(List<Day> days){
         employees = employeeService.getAllEmployees();
@@ -25,22 +27,16 @@ public class ScheduleWriter {
         Collections.sort(employees);
     }
     protected void scheduleOneDay(Day day){
-        List<Employee> scheduledWorkers = new ArrayList<>();
+        List<Employee> scheduledEmployees = new ArrayList<>();
         List<Employee> availableEmployees = getAvailableEmployees(day.getDate());
-        if(availableEmployees.size() >= day.getMinEmployees()){
-            if(availableEmployees.size() >= day.getPreferredEmployees()){
-                scheduledWorkers.addAll(availableEmployees.subList(0, day.getPreferredEmployees()));
-            }
-            else {
-                scheduledWorkers.addAll(availableEmployees.subList(0, availableEmployees.size()));
-            }
-        }
-        else {
+        if(day.getMinEmployees() > availableEmployees.size()){
             availableEmployees.addAll(getEmployeesWithMostRequests(day.getMinEmployees() - availableEmployees.size()));
-            scheduledWorkers.addAll(availableEmployees);
         }
-
-        schedule.put(day.getDate(), scheduledWorkers);
+        for(Employee employee : availableEmployees){
+            scheduledEmployees.add(employee);
+            employee.addWorkedHours(shiftLength);
+        }
+        schedule.put(day.getDate(), scheduledEmployees);
     }
     protected List<Employee> getAvailableEmployees(LocalDate date){
         List<Employee> availableEmployees = new ArrayList<>();

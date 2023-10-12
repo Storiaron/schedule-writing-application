@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,6 +20,12 @@ public class Employee implements Comparable<Employee>{
     private String name;
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Request> currentRequests;
+    private int hoursPerMonth;
+    private int remainingHoursThisMonth;
+
+    public void addWorkedHours(int workHours){
+        remainingHoursThisMonth -= workHours;
+    }
 
     @Override
     public int compareTo(Employee o) {
