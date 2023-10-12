@@ -23,4 +23,9 @@ public class Employee implements Comparable<Employee>{
     public int compareTo(Employee o) {
         return  o.currentRequests.size() - this.currentRequests.size();
     }
+
+    @Override
+    public String toString() {
+        return "name:" + name;
+    }
 }

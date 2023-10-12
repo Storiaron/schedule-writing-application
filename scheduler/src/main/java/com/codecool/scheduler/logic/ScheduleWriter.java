@@ -29,14 +29,14 @@ public class ScheduleWriter {
         List<Employee> availableEmployees = getAvailableEmployees(day.getDate());
         if(availableEmployees.size() >= day.getMinEmployees()){
             if(availableEmployees.size() >= day.getPreferredEmployees()){
-                scheduledWorkers.addAll(availableEmployees.subList(0, day.getPreferredEmployees() - 1));
+                scheduledWorkers.addAll(availableEmployees.subList(0, day.getPreferredEmployees()));
             }
             else {
-                scheduledWorkers.addAll(availableEmployees.subList(0, availableEmployees.size() - 1));
+                scheduledWorkers.addAll(availableEmployees.subList(0, availableEmployees.size()));
             }
         }
         else {
-            availableEmployees.addAll(getEmployeesWithMostRequests(day.getMinEmployees() - availableEmployees.size() - 1));
+            availableEmployees.addAll(getEmployeesWithMostRequests(day.getMinEmployees() - availableEmployees.size()));
             scheduledWorkers.addAll(availableEmployees);
         }
 
