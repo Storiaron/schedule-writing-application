@@ -31,12 +31,11 @@ public class ScheduleWriter {
     protected void scheduleOneDay(Day day){
         List<Employee> scheduledEmployees = new ArrayList<>();
         List<Employee> availableEmployees = getAvailableEmployees(day.getDate());
-        if(day.getMinEmployees() > availableEmployees.size()){
-            availableEmployees.addAll(getEmployeesWithMostRequests(day.getMinEmployees() - availableEmployees.size()));
+        for(int i = 0; i < day.getMinEmployees(); i++){
+            scheduledEmployees.add(availableEmployees.get(i));
         }
-        for(Employee employee : availableEmployees){
-            scheduledEmployees.add(employee);
-            employee.addWorkedHours(shiftLength);
+        if(day.getMinEmployees() > scheduledEmployees.size()){
+            addEmployeesWithMostRequests(day.getMinEmployees() - scheduledEmployees.size(), scheduledEmployees);
         }
         schedule.put(day.getDate(), scheduledEmployees);
     }
@@ -50,11 +49,15 @@ public class ScheduleWriter {
         return availableEmployees;
     }
 
-    protected List<Employee> getEmployeesWithMostRequests(int num){
-        List<Employee> forcedEmployees = new ArrayList<>();
-        for(int i = 0; i < num; i++) {
-            forcedEmployees.add(employees.get(i));
+    protected void addEmployeesWithMostRequests(int num, List<Employee> scheduledEmployees){
+        for(Employee employee : employees){
+            if(num == 0){
+                break;
+            }
+            if(!scheduledEmployees.contains(employee)){
+                scheduledEmployees.add(employee);
+                num--;
+            }
         }
-        return forcedEmployees;
     }
 }
