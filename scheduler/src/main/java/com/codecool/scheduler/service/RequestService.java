@@ -24,6 +24,9 @@ public class RequestService {
        Request request = new Request();
        request.setEmployee(employee);
        request.setDate(requestDTO.getDate());
+       employee.addRequest(request);
        requestRepository.save(request);
+       employeeRepository.save(employee);
+
     }
 }

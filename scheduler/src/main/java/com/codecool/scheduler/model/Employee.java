@@ -1,12 +1,13 @@
 package com.codecool.scheduler.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,8 +20,9 @@ public class Employee implements Comparable<Employee>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany(fetch = FetchType.EAGER)
-    private Set<Request> currentRequests;
+    @OneToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private Set<Request> requests;
     private int hoursPerMonth;
     private int remainingHoursThisMonth;
 
@@ -28,13 +30,18 @@ public class Employee implements Comparable<Employee>{
         remainingHoursThisMonth -= workHours;
     }
 
+    public void addRequest(Request request){
+        this.requests.add(request);
+    }
+
     public boolean isAvailable(LocalDate date){
-       return currentRequests.stream().noneMatch(request -> request.getDate().equals(date));
+        return requests.stream().noneMatch(request -> request.getDate().equals(date));
+
     }
 
     @Override
     public int compareTo(Employee o) {
-        return  o.currentRequests.size() - this.currentRequests.size();
+        return  o.requests.size() - this.requests.size();
     }
 
     @Override

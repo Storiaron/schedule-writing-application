@@ -19,30 +19,32 @@ public class ScheduleWriter {
     }
     public Schedule createSchedule(List<Day> days){
         employees = employeeService.getAllEmployees();
-        orderEmployeesByAvailability();
+        orderEmployeesByRequestCount();
         for(Day day : days){
             scheduleOneDay(day);
         }
         return schedule;
     }
-    protected void orderEmployeesByAvailability(){
+    protected void orderEmployeesByRequestCount(){
         Collections.sort(employees);
     }
     protected void scheduleOneDay(Day day){
         List<Employee> scheduledEmployees = new ArrayList<>();
         List<Employee> availableEmployees = getAvailableEmployees(day.getDate());
-        for(int i = 0; i < day.getMinEmployees(); i++){
+        for(int i = 0; i < day.getMinEmployees() && i < availableEmployees.size(); i++){
             scheduledEmployees.add(availableEmployees.get(i));
         }
         if(day.getMinEmployees() > scheduledEmployees.size()){
             addEmployeesWithMostRequests(day.getMinEmployees() - scheduledEmployees.size(), scheduledEmployees);
         }
         schedule.put(day.getDate(), scheduledEmployees);
+        calculateWorkedHours(scheduledEmployees);
+
     }
     protected List<Employee> getAvailableEmployees(LocalDate date){
         List<Employee> availableEmployees = new ArrayList<>();
         for(Employee employee : employees){
-            if(employee.isAvailable(date)){
+            if(employee.isAvailable(date) && employee.getRemainingHoursThisMonth() >= shiftLength){
                 availableEmployees.add(employee);
             }
         }
@@ -54,10 +56,16 @@ public class ScheduleWriter {
             if(num == 0){
                 break;
             }
-            if(!scheduledEmployees.contains(employee)){
+            if(!scheduledEmployees.contains(employee) && employee.getRemainingHoursThisMonth() >= shiftLength){
                 scheduledEmployees.add(employee);
                 num--;
             }
+        }
+    }
+
+    protected void calculateWorkedHours(List<Employee> scheduledEmployees){
+        for(Employee employee : scheduledEmployees){
+            employee.addWorkedHours(shiftLength);
         }
     }
 }

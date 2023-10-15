@@ -5,10 +5,9 @@ import com.codecool.scheduler.model.Employee;
 import com.codecool.scheduler.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class EmployeeService {
@@ -31,6 +30,7 @@ public class EmployeeService {
         }
         return employee;
     }
+    @Transactional
     public List<Employee> getAllEmployees(){
         return employeeRepository.findAll();
     }

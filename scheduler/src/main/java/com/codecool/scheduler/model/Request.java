@@ -1,5 +1,7 @@
 package com.codecool.scheduler.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +19,15 @@ public class Request {
     private Long id;
     private LocalDate date;
     @ManyToOne
+    @JsonBackReference
     private Employee employee;
 
-
+    @Override
+    public String toString() {
+        return "Request{" +
+                "id=" + id +
+                ", date=" + date +
+                ", employee=" + employee +
+                '}';
+    }
 }
