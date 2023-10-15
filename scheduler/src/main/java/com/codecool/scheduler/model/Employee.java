@@ -27,6 +27,10 @@ public class Employee implements Comparable<Employee>{
         remainingHoursThisMonth -= workHours;
     }
 
+    public boolean isAvailable(LocalDate date){
+       return currentRequests.stream().noneMatch(request -> request.getDate().equals(date));
+    }
+
     @Override
     public int compareTo(Employee o) {
         return  o.currentRequests.size() - this.currentRequests.size();

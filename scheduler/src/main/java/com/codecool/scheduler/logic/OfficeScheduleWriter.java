@@ -4,14 +4,11 @@ import com.codecool.scheduler.model.Day;
 import com.codecool.scheduler.model.Employee;
 import com.codecool.scheduler.service.EmployeeService;
 
-import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class ScheduleWriterSingleShift extends ScheduleWriter{
-    public ScheduleWriterSingleShift(EmployeeService employeeService, int shiftLength) {
+public class OfficeScheduleWriter extends ScheduleWriter{
+    public OfficeScheduleWriter(EmployeeService employeeService, int shiftLength) {
         super(employeeService, shiftLength);
     }
 

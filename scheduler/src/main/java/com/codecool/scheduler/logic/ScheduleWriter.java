@@ -2,20 +2,22 @@ package com.codecool.scheduler.logic;
 
 import com.codecool.scheduler.model.Day;
 import com.codecool.scheduler.model.Employee;
+import com.codecool.scheduler.model.Schedule;
 import com.codecool.scheduler.service.EmployeeService;
 import java.time.LocalDate;
 import java.util.*;
 public class ScheduleWriter {
 
     protected final EmployeeService employeeService;
-    protected Map<LocalDate, List<Employee>> schedule = new HashMap<>();
+    protected Schedule schedule;
     protected List<Employee> employees;
     protected int shiftLength;
     public ScheduleWriter(EmployeeService employeeService, int shiftLength) {
         this.employeeService = employeeService;
         this.shiftLength = shiftLength;
+        schedule = new Schedule();
     }
-    public Map<LocalDate, List<Employee>> createSchedule(List<Day> days){
+    public Schedule createSchedule(List<Day> days){
         employees = employeeService.getAllEmployees();
         orderEmployeesByAvailability();
         for(Day day : days){
@@ -41,7 +43,7 @@ public class ScheduleWriter {
     protected List<Employee> getAvailableEmployees(LocalDate date){
         List<Employee> availableEmployees = new ArrayList<>();
         for(Employee employee : employees){
-            if(!employee.getCurrentRequests().stream().anyMatch(request -> request.getDate() == date)){
+            if(employee.isAvailable(date)){
                 availableEmployees.add(employee);
             }
         }
