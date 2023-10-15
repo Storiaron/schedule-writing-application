@@ -10,18 +10,4 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class ScheduleWriterTest {
-
-    ScheduleWriter scheduleWriter;
-
-
-    @Autowired
-    public ScheduleWriterTest (EmployeeRepository employeeRepository){
-        EmployeeService employeeService = new EmployeeService(employeeRepository);
-        scheduleWriter = new ScheduleWriter(employeeService);
-    }
-
-    @Test
-    void createSchedule() {
-        System.out.println("hi");
-    }
 }

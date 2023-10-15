@@ -21,12 +21,16 @@ public class ScheduleRepository {
         actualSchedules.add(schedule);
     }
 
-    public void saveSchedule(UUID scheduleId){
+    public Schedule getSchedulePrototype(UUID scheduleId){
         for(Schedule schedule : schedulePrototypes){
             if(schedule.getId().equals(scheduleId)){
-                actualSchedules.add(schedule);
-                break;
+                return schedule;
             }
         }
+        return null;
+    }
+
+    public void saveSchedule(Schedule schedule){
+        actualSchedules.add(schedule);
     }
 }

@@ -3,16 +3,15 @@ package com.codecool.scheduler.service;
 import com.codecool.scheduler.dto.ScheduleRequestDTO;
 import com.codecool.scheduler.logic.ScheduleWriterFactory;
 import com.codecool.scheduler.model.Day;
-import com.codecool.scheduler.model.Employee;
 import com.codecool.scheduler.model.Schedule;
 import com.codecool.scheduler.repository.DayRepository;
+import com.codecool.scheduler.repository.EmployeeRepository;
 import com.codecool.scheduler.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -21,17 +20,19 @@ public class ScheduleService {
     private final ScheduleWriterFactory scheduleWriterFactory;
     private final DayRepository dayRepository;
     private final ScheduleRepository scheduleRepository;
+    private final EmployeeRepository employeeRepository;
     @Autowired
-    public ScheduleService(ScheduleWriterFactory scheduleWriterFactory, DayRepository dayRepository, ScheduleRepository scheduleRepository) {
+    public ScheduleService(ScheduleWriterFactory scheduleWriterFactory, DayRepository dayRepository, ScheduleRepository scheduleRepository, EmployeeRepository employeeRepository) {
         this.scheduleWriterFactory = scheduleWriterFactory;
         this.dayRepository = dayRepository;
         this.scheduleRepository = scheduleRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     public void specifyDailyNeeds(List<Day> days){
         dayRepository.saveAll(days);
     }
-    public Map<LocalDate, List<Employee>> generateSchedule(ScheduleRequestDTO scheduleRequestDTO) {
+    public Schedule generateSchedule(ScheduleRequestDTO scheduleRequestDTO) {
         LocalDate startingDate = scheduleRequestDTO.getStartingDate();
         String typeofSchedule = scheduleRequestDTO.getTypeofSchedule();
         LocalDate endingDate = startingDate.plusMonths(1);
@@ -42,6 +43,12 @@ public class ScheduleService {
     }
 
     public void saveSchedule(UUID scheduleId){
-        scheduleRepository.saveSchedule(scheduleId);
+        Schedule schedule = scheduleRepository.getSchedulePrototype(scheduleId);
+        addWorkHours(schedule);
+        scheduleRepository.saveSchedule(schedule);
+    }
+
+    private void addWorkHours(Schedule schedule){
+        schedule.getSchedule().forEach((date, scheduledEmployees) -> employeeRepository.saveAll(scheduledEmployees));
     }
 }

@@ -3,6 +3,7 @@ package com.codecool.scheduler.controller;
 import com.codecool.scheduler.dto.ScheduleRequestDTO;
 import com.codecool.scheduler.model.Day;
 import com.codecool.scheduler.model.Employee;
+import com.codecool.scheduler.model.Schedule;
 import com.codecool.scheduler.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
@@ -27,7 +28,7 @@ public class ScheduleController {
         scheduleService.specifyDailyNeeds(days);
     }
     @PostMapping("/generate")
-    public Map<LocalDate, List<Employee>> generateSchedule(@RequestBody ScheduleRequestDTO scheduleRequestDTO){
+    public Schedule generateSchedule(@RequestBody ScheduleRequestDTO scheduleRequestDTO){
         return scheduleService.generateSchedule(scheduleRequestDTO);
     }
 
