@@ -23,12 +23,7 @@ public class EmployeeService {
         employeeRepository.save(employee);
     }
     public Employee loginEmployee(EmployeeDTO employeeDTO){
-        Employee employee = employeeRepository.findByName(employeeDTO.getName());
-        if(employee == null){
-            employee = new Employee();
-            employee.setName("not found");
-        }
-        return employee;
+        return employeeRepository.findByName(employeeDTO.getName());
     }
     @Transactional
     public List<Employee> getAllEmployees(){

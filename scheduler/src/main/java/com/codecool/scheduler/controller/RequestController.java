@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/request")
 public class RequestController {
@@ -17,7 +19,7 @@ public class RequestController {
         this.requestService = requestService;
     }
     @PostMapping("")
-    public void addRequest(@RequestBody RequestDTO requestDTO){
-        requestService.addRequest(requestDTO);
+    public void addRequest(@RequestBody List<RequestDTO> requestDTOlist){
+        requestService.handleRequests(requestDTOlist);
     }
 }

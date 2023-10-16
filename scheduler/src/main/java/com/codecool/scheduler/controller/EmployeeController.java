@@ -24,7 +24,6 @@ public class EmployeeController {
     @ResponseBody
     public ResponseEntity<Employee> loginEmployee(@RequestBody EmployeeDTO employeeDTO){
         Employee employee = employeeService.loginEmployee(employeeDTO);
-        System.out.println(employee);
         //TODO check on frontend if response status was ok
         if (employee == null) {
             return ResponseEntity.notFound().build();

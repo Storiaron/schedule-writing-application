@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class RequestService {
     private final RequestRepository requestRepository;
@@ -27,6 +29,11 @@ public class RequestService {
        employee.addRequest(request);
        requestRepository.save(request);
        employeeRepository.save(employee);
+    }
 
+    public void handleRequests(List<RequestDTO> requestDTOList){
+        for(RequestDTO requestDTO : requestDTOList){
+            addRequest(requestDTO);
+        }
     }
 }
