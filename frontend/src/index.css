@@ -28,7 +28,7 @@ code {
 }
 .title:hover{
   color: #a9a0a0;
-  text-decoration: none;
+  text-decoration: wavy;
 }
 
 .loginform {
