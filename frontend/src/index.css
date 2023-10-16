@@ -11,3 +11,37 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.App-link {
+  color: #65dafb;
+}
+.header {
+  background-color: rgb(5, 156, 238);
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items:center; 
+}
+
+.title {
+  font-size: 1.5rem;
+  color: #fff;
+}
+.title:hover{
+  color: #a9a0a0;
+  text-decoration: wavy;
+}
+
+.loginform {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.label {
+  justify-content: center;
+  display: flex;
+}
+
+.loginform button {
+  display: flex;
+}

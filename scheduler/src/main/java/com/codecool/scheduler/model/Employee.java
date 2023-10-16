@@ -1,21 +1,64 @@
 package com.codecool.scheduler.model;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
-@Document(collection = "Schedule")
+import java.time.LocalDate;
+import java.util.Objects;
+import java.util.Set;
+
+@Entity
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class Employee {
+public class Employee implements Comparable<Employee>{
     @Id
-    private String id;
-    @Field("name")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
+    @OneToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private Set<Request> requests;
+    private int hoursPerMonth;
+    private int remainingHoursThisMonth;
+
+    public void addWorkedHours(int workHours){
+        remainingHoursThisMonth -= workHours;
+    }
+
+    public void addRequest(Request request){
+        this.requests.add(request);
+    }
+
+    public boolean isAvailable(LocalDate date){
+        return requests.stream().noneMatch(request -> request.getDate().equals(date));
+
+    }
+
+    @Override
+    public int compareTo(Employee o) {
+        return  o.requests.size() - this.requests.size();
+    }
+
+    @Override
+    public String toString() {
+        return "name:" + name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return Objects.equals(id, employee.id) && Objects.equals(name, employee.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
 }
