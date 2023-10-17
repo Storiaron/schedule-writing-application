@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import AdminPage from "./components/employerComponents/AdminPage";
 import DayOffRequest from "./components/employeeComponents/DayOffRequest";
 import Schedule from "./components/employerComponents/Schedule";
+import DailyRequirements from "./components/employerComponents/DailyRequirements";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/schedule",
         element: <Schedule />
+      },
+      {
+        path: "/dailyrequirements",
+        element: <DailyRequirements />
       }
     ],
   },
