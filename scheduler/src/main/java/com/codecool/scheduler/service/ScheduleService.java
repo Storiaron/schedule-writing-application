@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
 
 @Service
 public class ScheduleService {
@@ -29,7 +30,7 @@ public class ScheduleService {
         this.employeeRepository = employeeRepository;
     }
 
-    public void specifyDailyNeeds(List<Day> days){
+    public void addDailyRequirements(List<Day> days){
         dayRepository.saveAll(days);
     }
     public Schedule generateSchedule(ScheduleRequestDTO scheduleRequestDTO) {

@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Setter
 public class Day {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private LocalDate date;
     private int minEmployees;

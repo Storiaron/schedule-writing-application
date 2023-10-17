@@ -29,8 +29,8 @@ public class ScheduleController {
     }
 
     @PostMapping("")
-    public void specifyDailyNeeds(@RequestBody List<Day> days){
-        scheduleService.specifyDailyNeeds(days);
+    public void addDailyRequirements(@RequestBody List<Day> days){
+        scheduleService.addDailyRequirements(days);
     }
     @PostMapping("/generate")
     public Schedule generateSchedule(@RequestBody ScheduleRequestDTO scheduleRequestDTO){
