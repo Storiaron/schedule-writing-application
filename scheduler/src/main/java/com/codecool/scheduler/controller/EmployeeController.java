@@ -31,6 +31,10 @@ public class EmployeeController {
     public Employee getEmployee(@PathVariable String employeeName){
         return employeeService.getEmployee(employeeName);
     }
+    @GetMapping("/reset")
+    public void resetWorkHours(){
+        employeeService.resetWorkHours();
+    }
     @GetMapping()
     @PostMapping("/login")
     @ResponseBody

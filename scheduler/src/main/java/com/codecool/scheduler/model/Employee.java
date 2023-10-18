@@ -26,6 +26,8 @@ public class Employee implements Comparable<Employee>{
     private Set<Request> requests;
     private int hoursPerMonth;
     private int remainingHoursThisMonth;
+    @Transient
+    private List<LocalDate> workDays;
 
     public void addWorkedHours(int workHours){
         remainingHoursThisMonth -= workHours;
@@ -38,6 +40,9 @@ public class Employee implements Comparable<Employee>{
     public boolean isAvailable(LocalDate date){
         return requests.stream().noneMatch(request -> request.getDate().equals(date));
 
+    }
+    public void resetWorkHours(){
+        remainingHoursThisMonth = hoursPerMonth;
     }
 
     @Override

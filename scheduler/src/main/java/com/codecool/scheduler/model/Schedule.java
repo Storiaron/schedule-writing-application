@@ -19,6 +19,20 @@ public class Schedule {
         schedule.put(date, employees);
     }
 
+    public List<LocalDate> getWorkDays(Employee employee){
+        List<LocalDate> workdays = new ArrayList<>();
+        schedule.forEach((date, employees) -> {
+            if(employees.contains(employee)) {
+            workdays.add(date);
+            }
+        });
+        return workdays;
+    }
+
+    public boolean isDateInSchedule(LocalDate date){
+        return schedule.keySet().contains(date);
+    }
+
     @Override
     public String toString() {
         return "Schedule{" +
