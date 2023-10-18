@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
 function Schedule(props) {
-    const {employees, schedule} = props;
+    const {employees, schedule, scheduleId} = props;
     const dates = Object.keys(schedule).sort();
-    console.log("here" , schedule[dates[0]])
-    console.log(dates)
+    console.log(scheduleId)
+    const handleSave = () => {
+        fetch("/api/schedule/save", {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+          },
+            body: JSON.stringify(scheduleId)  
+        })
+    }
   return (
     <div>
       <table>
@@ -28,6 +36,7 @@ function Schedule(props) {
           ))}
         </tbody>
       </table>
+      <button onClick={handleSave}>Save</button>
     </div>
   );
 }

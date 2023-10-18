@@ -6,6 +6,7 @@ function ScheduleRequest(){
     const [date, setDate] = useState(new Date());
     const [options, setOptions] = useState(null);
     const [schedule, setSchedule] = useState(null);
+    const [scheduleId, setScheduleId] = useState(null);
     const [employees, setEmployees] = useState('');
 
     const fetchScheduleOptions = async () => {
@@ -39,6 +40,7 @@ function ScheduleRequest(){
         if(scheduleData.ok){
             const schedule = await scheduleData.json()
             setSchedule(schedule.schedule);
+            setScheduleId(schedule.id);
         }
     }
     return options ? (
@@ -54,7 +56,7 @@ function ScheduleRequest(){
           </select>
           <DatePicker selected={date} onChange={date => setDate(date)} />
           <input type="submit" value="Generate schedule" onClick={(e) => handleSubmit(e)}/>
-          {schedule ? <Schedule schedule={schedule} employees={employees}/> : <></>}
+          {schedule ? <Schedule schedule={schedule} scheduleId={scheduleId} employees={employees}/> : <></>}
         </div>
       ) : <div>Loading, please wait...</div>;
 }
