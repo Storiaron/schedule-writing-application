@@ -6,16 +6,25 @@ function ScheduleRequest(){
     const [date, setDate] = useState(new Date());
     const [options, setOptions] = useState(null);
     const [schedule, setSchedule] = useState(null);
+    const [employees, setEmployees] = useState('');
 
     const fetchScheduleOptions = async () => {
-        const scheduleOptionsData = await fetch('/api/schedule/options')
-        if(scheduleOptionsData.ok){
-            const optionsData = await scheduleOptionsData.json();
+        const response = await fetch('/api/schedule/options')
+        if(response.ok){
+            const optionsData = await response.json();
             setOptions(optionsData);
+        } 
+    }
+    const fetchEmployees = async () => {
+        const response = await fetch('/api/employee')
+        if(response.ok){
+            const employeeData = await response.json();
+            setEmployees(employeeData);
         } 
     }
     useEffect(() => {
         fetchScheduleOptions();
+        fetchEmployees();
     }, [])
 
     const handleSubmit = async (e) => {
@@ -45,7 +54,7 @@ function ScheduleRequest(){
           </select>
           <DatePicker selected={date} onChange={date => setDate(date)} />
           <input type="submit" value="Generate schedule" onClick={(e) => handleSubmit(e)}/>
-          {schedule ? <Schedule schedule={schedule}/> : <></>}
+          {schedule ? <Schedule schedule={schedule} employees={employees}/> : <></>}
         </div>
       ) : <div>Loading, please wait...</div>;
 }

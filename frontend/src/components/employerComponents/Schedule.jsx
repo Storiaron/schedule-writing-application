@@ -1,23 +1,30 @@
 function Schedule(props) {
-  const dates = Object.keys(props.schedule);
-  const employees = Object.values(props.schedule);
-  console.log(employees)
-  const test = Object.entries(props.schedule).sort();
-  console.log(test.sort());
+    const {employees, schedule} = props;
+    const dates = Object.keys(schedule).sort();
+    console.log("here" , schedule[dates[0]])
+    console.log(dates)
   return (
     <div>
       <table>
         <thead>
-        <tr>
-          {test.map((entry) => (
-            <th>{new Date(entry[0]).getDate()}</th>
-          ))}
-        </tr>
+          <tr>
+            <th>Schedule option: </th>
+            {dates.map((date) => (
+              <th key={date}>{date}</th>
+            ))}
+          </tr>
         </thead>
         <tbody>
-        <tr>
-        {employees.map(employee => <td>{employee.name}</td>)}
-        </tr>
+          {employees.map((employee) => (
+            <tr key={employee.id}>
+              <td>{employee.name}</td>
+              {dates.map((date) => (
+                <td key={`${employee.id}+${date}`}>
+                  {schedule[date].some((worker) => worker.name === employee.name) ? "Work" : "Off" }
+                </td>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
