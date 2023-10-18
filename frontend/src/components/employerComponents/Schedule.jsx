@@ -19,7 +19,7 @@ function Schedule(props) {
           <tr>
             <th>Schedule option: </th>
             {dates.map((date) => (
-              <th key={date}>{date}</th>
+              <th key={date}>{new Date(date).getDate()}</th>
             ))}
           </tr>
         </thead>
