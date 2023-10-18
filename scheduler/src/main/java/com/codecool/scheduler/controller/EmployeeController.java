@@ -27,6 +27,11 @@ public class EmployeeController {
     public List<Employee> getAllEmployees(){
         return employeeService.getAllEmployees();
     }
+    @GetMapping("/{employeeName}")
+    public Employee getEmployee(@PathVariable String employeeName){
+        return employeeService.getEmployee(employeeName);
+    }
+    @GetMapping()
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity<Employee> loginEmployee(@RequestBody EmployeeDTO employeeDTO){
