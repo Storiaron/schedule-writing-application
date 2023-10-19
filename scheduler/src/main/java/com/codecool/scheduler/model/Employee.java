@@ -52,7 +52,14 @@ public class Employee implements Comparable<Employee>{
 
     @Override
     public String toString() {
-        return "name: " + name + "hours: " + remainingHoursThisMonth;
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", requests=" + requests +
+                ", hoursPerMonth=" + hoursPerMonth +
+                ", remainingHoursThisMonth=" + remainingHoursThisMonth +
+                ", workDays=" + workDays +
+                '}';
     }
 
     @Override

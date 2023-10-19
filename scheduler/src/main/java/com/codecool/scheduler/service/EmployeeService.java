@@ -50,6 +50,8 @@ public class EmployeeService {
     }
 
     public void resetWorkHours(){
-        employeeRepository.findAll().forEach(employee -> employee.resetWorkHours());
+        List<Employee> employees  = employeeRepository.findAll();
+        employees.forEach(employee -> employee.resetWorkHours());
+        employeeRepository.saveAll(employees);
     }
 }

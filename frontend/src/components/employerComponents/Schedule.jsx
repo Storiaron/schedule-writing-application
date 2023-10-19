@@ -25,7 +25,7 @@ function Schedule(props) {
         <tbody>
           {employees.map((employee) => (
             <tr key={employee.id}>
-              <td><Link to={`/api/employee/${employee.name}`}>{employee.name}</Link></td>
+              <td><Link to={`/employee/${employee.name}`}>{employee.name}</Link></td>
               {dates.map((date) => (
                 <td key={`${employee.id}+${date}`}>
                   {schedule[date].some((worker) => worker.name === employee.name) ? "Work" : "Off" }
