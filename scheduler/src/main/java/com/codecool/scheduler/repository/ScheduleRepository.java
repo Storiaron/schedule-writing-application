@@ -3,6 +3,7 @@ package com.codecool.scheduler.repository;
 import com.codecool.scheduler.model.Schedule;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -29,7 +30,14 @@ public class ScheduleRepository {
         }
         return null;
     }
-
+    public Schedule getScheduleByDate(LocalDate date){
+        for(Schedule schedule : actualSchedules){
+            if(schedule.isDateInSchedule(date)){
+                return schedule;
+            }
+        }
+        return null;
+    }
     public void saveSchedule(Schedule schedule){
         actualSchedules.add(schedule);
     }

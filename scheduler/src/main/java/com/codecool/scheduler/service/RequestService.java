@@ -22,13 +22,16 @@ public class RequestService {
     }
     @Transactional
     public void addRequest(RequestDTO requestDTO){
-       Employee employee = employeeRepository.findByName(requestDTO.getEmployeeName());
-       Request request = new Request();
-       request.setEmployee(employee);
-       request.setDate(requestDTO.getDate());
-       employee.addRequest(request);
-       requestRepository.save(request);
-       employeeRepository.save(employee);
+        Employee employee = employeeRepository.findByName(requestDTO.getEmployeeName());
+        Request request = requestRepository.findByDateAndEmployee(requestDTO.getDate(), employee);
+        if(request == null){
+            request = new Request();
+            request.setEmployee(employee);
+            request.setDate(requestDTO.getDate());
+            requestRepository.save(request);
+            employee.addRequest(request);
+            employeeRepository.save(employee);
+        }
     }
 
     public void handleRequests(List<RequestDTO> requestDTOList){

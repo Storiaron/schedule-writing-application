@@ -9,4 +9,6 @@ import java.util.List;
 public interface DayRepository extends JpaRepository<Day, Long> {
 
     List<Day> findAllByDateBetween(LocalDate startOfMonth, LocalDate endOfMonth);
+
+    Day findByDate(LocalDate date);
 }

@@ -2,10 +2,9 @@ import DatePicker from "react-datepicker";
 import { eachDayOfInterval } from 'date-fns';
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
-import { differenceInDays } from 'date-fns';
 function DayOffRequest() {
   //FOR TESTING
-  const username = "test01"
+  const username = "test03"
   const [date, setDate] = useState(new Date());
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();

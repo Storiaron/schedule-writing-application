@@ -23,15 +23,19 @@ public class ScheduleController {
         this.scheduleService = scheduleService;
     }
 
+    @GetMapping("/options")
+    public List<String> getScheduleOptions(){
+        return List.of("default");
+    }
+
     @PostMapping("")
-    public void specifyDailyNeeds(@RequestBody List<Day> days){
-        scheduleService.specifyDailyNeeds(days);
+    public void addDailyRequirements(@RequestBody List<Day> days){
+        scheduleService.addDailyRequirements(days);
     }
     @PostMapping("/generate")
     public Schedule generateSchedule(@RequestBody ScheduleRequestDTO scheduleRequestDTO){
         return scheduleService.generateSchedule(scheduleRequestDTO);
     }
-
     @PutMapping("/save")
     public void saveSchedule(@RequestBody UUID scheduleId){
         scheduleService.saveSchedule(scheduleId);

@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/employee")
 public class EmployeeController {
@@ -19,6 +22,23 @@ public class EmployeeController {
     @PostMapping("")
     public void addEmployee(@RequestBody EmployeeDTO employeeDTO){
         employeeService.addEmployee(employeeDTO);
+    }
+
+    @GetMapping("")
+    public List<Employee> getAllEmployees(){
+        return employeeService.getAllEmployees();
+    }
+    @GetMapping("/{employeeName}")
+    public Employee getEmployee(@PathVariable String employeeName){
+        return employeeService.getEmployee(employeeName);
+    }
+    @PutMapping("/{employeeName}")
+    public Employee getEmployeeWorkDays(@PathVariable String employeeName, @RequestBody LocalDate date){
+        return employeeService.getEmployeeWorkingDays(employeeName, date);
+    }
+    @GetMapping("/reset")
+    public void resetWorkHours(){
+        employeeService.resetWorkHours();
     }
     @PostMapping("/login")
     @ResponseBody

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -25,6 +26,8 @@ public class Employee implements Comparable<Employee>{
     private Set<Request> requests;
     private int hoursPerMonth;
     private int remainingHoursThisMonth;
+    @Transient
+    private List<LocalDate> workDays;
 
     public void addWorkedHours(int workHours){
         remainingHoursThisMonth -= workHours;
@@ -38,6 +41,9 @@ public class Employee implements Comparable<Employee>{
         return requests.stream().noneMatch(request -> request.getDate().equals(date));
 
     }
+    public void resetWorkHours(){
+        remainingHoursThisMonth = hoursPerMonth;
+    }
 
     @Override
     public int compareTo(Employee o) {
@@ -46,7 +52,14 @@ public class Employee implements Comparable<Employee>{
 
     @Override
     public String toString() {
-        return "name:" + name;
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", requests=" + requests +
+                ", hoursPerMonth=" + hoursPerMonth +
+                ", remainingHoursThisMonth=" + remainingHoursThisMonth +
+                ", workDays=" + workDays +
+                '}';
     }
 
     @Override

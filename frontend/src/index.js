@@ -7,6 +7,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./components/Login";
 import AdminPage from "./components/employerComponents/AdminPage";
 import DayOffRequest from "./components/employeeComponents/DayOffRequest";
+import ScheduleRequest from "./components/employerComponents/ScheduleRequest";
+import DailyRequirements from "./components/employerComponents/DailyRequirements";
+import Employee from "./components/employeeComponents/Employee";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +29,18 @@ const router = createBrowserRouter([
       {
         path: "/request",
         element: <DayOffRequest />
+      },
+      {
+        path: "/schedule",
+        element: <ScheduleRequest />
+      },
+      {
+        path: "/dailyrequirements",
+        element: <DailyRequirements />
+      }, 
+      {
+        path: "/employee/:employeeName",
+        element: <Employee />
       }
     ],
   },
@@ -37,8 +52,4 @@ root.render(
     <RouterProvider router={router} />
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
