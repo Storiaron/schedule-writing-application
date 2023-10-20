@@ -28,6 +28,18 @@ public class Schedule {
         });
         return workdays;
     }
+    public int getContinuousWorkDays(Employee employee, LocalDate date){
+        int counter = 1;
+        for(int i = 1; i < schedule.size(); i++){
+            if(schedule.get(date.minusDays(i)).contains(employee)){
+                counter++;
+            }
+            else {
+                return counter;
+            }
+        }
+        return counter;
+    }
 
     public boolean isDateInSchedule(LocalDate date){
         return schedule.keySet().contains(date);
