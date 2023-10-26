@@ -25,7 +25,7 @@ public class ScheduleController {
 
     @GetMapping("/options")
     public List<String> getScheduleOptions(){
-        return List.of("default");
+        return scheduleService.getScheduleOptions();
     }
 
     @PostMapping("")

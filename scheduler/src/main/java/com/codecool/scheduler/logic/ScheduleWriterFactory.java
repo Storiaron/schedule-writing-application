@@ -20,9 +20,16 @@ public class ScheduleWriterFactory {
     public ScheduleWriter getScheduleWriter(String typeofSchedule){
         int hoursPerStandardShift = 8;
         switch(typeofSchedule){
+            case "12h, single shift" -> {
+                return new TwelveHourScheduleWriter(employeeService, 12);
+            }
             default -> {
                 return new ScheduleWriter(employeeService, hoursPerStandardShift);
             }
         }
+    }
+
+    public List<String> getScheduleOptions(){
+        return List.of("default", "12h, single shift");
     }
 }

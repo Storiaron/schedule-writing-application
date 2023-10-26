@@ -1,18 +1,29 @@
 import { Outlet, Link } from "react-router-dom";
-function Header(){
-    return (
-        <>
-        <div className="header">
+import { useState } from "react";
+import DropdownMenu from "./Dropdown";
+function Header() {
+    const [isOpen, isClosed] = useState(false);
+  return (
+    <>
+      <div className="header">
         <Link to="/" className="title">
           Home
-        </Link>
-        <Link to="/dailyrequirements" className="title">
-          Days
-        </Link>
-        </div>
-        <Outlet />
-        </>
-    )
+        </Link> 
+        <DropdownMenu />
+      </div>
+      <Outlet />
+    </>
+  );
 }
 
 export default Header;
+/*
+<div className="header-options">
+          <Link to="/schedule" className="title">
+            Schedule
+          </Link>
+          <Link to="/dailyrequirements" className="title">
+            Daily Requirements
+          </Link>
+        </div>
+        */
