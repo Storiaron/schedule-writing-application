@@ -84,7 +84,7 @@ public class ScheduleService {
     }
 
     private void addWorkHours(Schedule schedule){
-        schedule.getSchedule().forEach((date, scheduledEmployees) -> employeeRepository.saveAll(scheduledEmployees));
+        schedule.getSchedule().forEach(el -> employeeRepository.saveAll(el.getScheduledEmployees()));
     }
 
     public List<String> getScheduleOptions(){
