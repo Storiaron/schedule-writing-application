@@ -47,8 +47,8 @@ function DailyRequirements() {
       "date": date,
       "shifts": [
         {
-          "shiftStart": shiftStart[index],
-          "shiftEnd": shiftEnd[index],
+          "shiftStart": shiftStart[index] || "00:01",
+          "shiftEnd": shiftEnd[index] || "00:01",
           "minEmployees": minEmployees[index] || 1,
           "preferredEmployees": preferredEmployees[index] || 1,
         },
