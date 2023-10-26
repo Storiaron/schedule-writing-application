@@ -13,13 +13,13 @@ public class TwelveHourScheduleWriter extends ScheduleWriter{
         super(employeeService, shiftLength);
     }
     @Override
-    protected List<Employee> getAvailableEmployees(LocalDate date){
+    protected List<Employee> getAvailableEmployees(Day day){
         int daysWorkableInRow = 4;
         List<Employee> availableEmployees = new ArrayList<>();
         for(Employee employee : employees){
-            if(employee.isAvailable(date) &&
+            if(employee.isAvailable(day.getDate()) &&
                     employee.getRemainingHoursThisMonth() >= shiftLength &&
-                    isBelowLimit(employee, date, daysWorkableInRow)
+                    isBelowLimit(employee, day, daysWorkableInRow)
             ){
                 availableEmployees.add(employee);
             }
@@ -27,7 +27,7 @@ public class TwelveHourScheduleWriter extends ScheduleWriter{
         return availableEmployees;
     }
 
-    protected boolean isBelowLimit(Employee employee, LocalDate date, int streakLimit){
-        return schedule.getContinuousWorkDays(employee, date) < streakLimit;
+    protected boolean isBelowLimit(Employee employee, Day day, int streakLimit){
+        return schedule.getContinuousWorkDays(employee, day) < streakLimit;
     }
 }

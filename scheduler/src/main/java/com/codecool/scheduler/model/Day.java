@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
+
 @Entity
 @NoArgsConstructor
 @Getter
@@ -23,10 +25,19 @@ public class Day {
 
     @Override
     public String toString() {
-        return "Day{" +
-                "id=" + id +
-                ", date=" + date +
-                ", shifts=" + shifts +
-                '}';
+        return date.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Day day = (Day) o;
+        return Objects.equals(date, day.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date);
     }
 }

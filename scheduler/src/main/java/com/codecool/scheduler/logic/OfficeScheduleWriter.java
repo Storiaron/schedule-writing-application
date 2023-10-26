@@ -15,7 +15,7 @@ public class OfficeScheduleWriter extends ScheduleWriter{
     @Override
     protected void scheduleOneDay(Day day){
         List<Employee> scheduledWorkers = new ArrayList<>();
-        List<Employee> availableEmployees = getAvailableEmployees(day.getDate());
+        List<Employee> availableEmployees = getAvailableEmployees(day);
         schedule.put(day, scheduledWorkers);
     }
 }

@@ -28,5 +28,4 @@ public class Shift {
     private Day day;
     @ManyToMany
     private List<Employee> scheduledEmployees;
-
 }

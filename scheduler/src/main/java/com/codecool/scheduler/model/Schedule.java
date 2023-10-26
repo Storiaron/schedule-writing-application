@@ -15,8 +15,8 @@ public class Schedule {
         this.id = UUID.randomUUID();
         this.schedule = new HashMap<>();
     }
-    public void put(Day date, List<Employee> employees){
-        schedule.put(date, employees);
+    public void put(Day day, List<Employee> employees){
+        schedule.put(day, employees);
     }
 
     public List<Day> getWorkDays(Employee employee){
@@ -28,10 +28,15 @@ public class Schedule {
         });
         return workdays;
     }
-    public int getContinuousWorkDays(Employee employee, LocalDate date){
+    public List<Employee> getWithDate(LocalDate date){
+        Day key = new Day();
+        key.setDate(date);
+        return schedule.get(key);
+    }
+    public int getContinuousWorkDays(Employee employee, Day day){
         int counter = 1;
         for(int i = 1; i < schedule.size(); i++){
-            if(schedule.get(date.minusDays(i)).contains(employee)){
+            if(getWithDate(day.getDate().minusDays(i)).contains(employee)){
                 counter++;
             }
             else {
@@ -45,10 +50,5 @@ public class Schedule {
         return schedule.keySet().contains(date);
     }
 
-    @Override
-    public String toString() {
-        return "Schedule{" +
-                "schedule=" + schedule +
-                '}';
-    }
+
 }

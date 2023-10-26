@@ -30,7 +30,7 @@ public class ScheduleWriter {
     }
     protected void scheduleOneDay(Day day){
         List<Employee> scheduledEmployees = new ArrayList<>();
-        List<Employee> availableEmployees = getAvailableEmployees(day.getDate());
+        List<Employee> availableEmployees = getAvailableEmployees(day);
         for(int i = 0; i <= day.getShifts().get(0).getMinEmployees() && i < availableEmployees.size(); i++){
             scheduledEmployees.add(availableEmployees.get(i));
         }
@@ -41,10 +41,10 @@ public class ScheduleWriter {
         calculateWorkedHours(scheduledEmployees);
 
     }
-    protected List<Employee> getAvailableEmployees(LocalDate date){
+    protected List<Employee> getAvailableEmployees(Day day){
         List<Employee> availableEmployees = new ArrayList<>();
         for(Employee employee : employees){
-            if(employee.isAvailable(date) && employee.getRemainingHoursThisMonth() >= shiftLength){
+            if(employee.isAvailable(day.getDate()) && employee.getRemainingHoursThisMonth() >= shiftLength){
                 availableEmployees.add(employee);
             }
         }
