@@ -1,11 +1,11 @@
 import DatePicker from "react-datepicker";
-import { eachDayOfInterval } from 'date-fns';
+import { eachDayOfInterval } from "date-fns";
 import { useState } from "react";
 
 function DailyRequirements() {
   const [date, setDate] = useState(new Date());
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [shiftStart, setShiftStart] = useState([]);
   const [shiftEnd, setShiftEnd] = useState([]);
   const [minEmployees, setMinEmployees] = useState([]);
@@ -22,12 +22,12 @@ function DailyRequirements() {
     const updatedMinEmployees = [...minEmployees];
     updatedMinEmployees[i] = e.target.value;
     setMinEmployees(updatedMinEmployees);
-  }
+  };
   const handlePreferredEmployeeChange = (e, i) => {
     const updatedPreferredEmployees = [...preferredEmployees];
     updatedPreferredEmployees[i] = e.target.value;
     setMinEmployees(updatedPreferredEmployees);
-  }
+  };
 
   const handleShiftStartChange = (e, i) => {
     const updatedShiftStart = [...shiftStart];
@@ -44,13 +44,13 @@ function DailyRequirements() {
   const handleInterval = () => {
     const dates = eachDayOfInterval({ start: startDate, end: endDate });
     return dates.map((date, index) => ({
-      "date": date,
-      "shifts": [
+      date: date,
+      shifts: [
         {
-          "shiftStart": shiftStart[index] || "00:01",
-          "shiftEnd": shiftEnd[index] || "00:01",
-          "minEmployees": minEmployees[index] || 1,
-          "preferredEmployees": preferredEmployees[index] || 1,
+          shiftStart: shiftStart[index] || "00:01",
+          shiftEnd: shiftEnd[index] || "00:01",
+          minEmployees: minEmployees[index] || 1,
+          preferredEmployees: preferredEmployees[index] || 1,
         },
       ],
     }));
@@ -62,18 +62,22 @@ function DailyRequirements() {
       requestData = handleInterval();
     } else {
       requestData = {
-        "date": startDate,
-        "minEmployees": minEmployees[0] || 1,
-        "preferredEmployees": preferredEmployees[0] || 1,
+        date: startDate,
+        shifts: [
+          {
+            minEmployees: minEmployees[0] || 1,
+            preferredEmployees: preferredEmployees[0] || 1,
+          },
+        ],
       };
     }
     console.log(requestData);
     fetch("/api/schedule", {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(requestData)
+      body: JSON.stringify(requestData),
     });
   };
 
@@ -91,9 +95,16 @@ function DailyRequirements() {
         <label>Shift end</label>
         <input type="time" onChange={(e) => handleShiftEndChange(e, i)} />
         <label>Min employees:</label>
-        <input type="number" min="1" onChange={(e) => handleMinEmployeeChange(e, i)} />
+        <input
+          type="number"
+          min="1"
+          onChange={(e) => handleMinEmployeeChange(e, i)}
+        />
         <label>Preferred employees:</label>
-        <input type="number" onChange={(e) => handlePreferredEmployeeChange(e, i)} />
+        <input
+          type="number"
+          onChange={(e) => handlePreferredEmployeeChange(e, i)}
+        />
       </div>
     );
   }
@@ -116,5 +127,3 @@ function DailyRequirements() {
 }
 
 export default DailyRequirements;
-
-

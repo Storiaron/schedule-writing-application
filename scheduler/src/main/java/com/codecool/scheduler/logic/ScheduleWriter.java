@@ -31,7 +31,7 @@ public class ScheduleWriter {
     protected void scheduleOneDay(Day day){
         List<Employee> scheduledEmployees = new ArrayList<>();
         List<Employee> availableEmployees = getAvailableEmployees(day.getDate());
-        for(int i = 0; i < day.getShifts().get(0).getMinEmployees() && i < availableEmployees.size(); i++){
+        for(int i = 0; i <= day.getShifts().get(0).getMinEmployees() && i < availableEmployees.size(); i++){
             scheduledEmployees.add(availableEmployees.get(i));
         }
         if(day.getShifts().get(0).getMinEmployees() > scheduledEmployees.size()){

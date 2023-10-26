@@ -20,4 +20,13 @@ public class Day {
     @OneToMany(fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Shift> shifts;
+
+    @Override
+    public String toString() {
+        return "Day{" +
+                "id=" + id +
+                ", date=" + date +
+                ", shifts=" + shifts +
+                '}';
+    }
 }

@@ -42,16 +42,24 @@ public class ScheduleService {
     @Transactional
     public void addDailyRequirements(List<DayDTO> dayDTOs){
         for(DayDTO dayDTO : dayDTOs){
-            Day day = new Day();
-            day.setDate(dayDTO.getDate());
+            Day day = dayRepository.findByDate(dayDTO.getDate());
+            if(day == null){
+                day = new Day();
+                day.setDate(dayDTO.getDate());
+            }
             List<Shift> shifts = new ArrayList<>();
             for(ShiftDTO shiftDTO : dayDTO.getShifts()){
-                Shift shift = new Shift();
                 LocalDateTime shiftStart = LocalDateTime.of(dayDTO.getDate(), LocalTime.parse(shiftDTO.getShiftStart()));
                 LocalDateTime shiftEnd = LocalDateTime.of(dayDTO.getDate(), LocalTime.parse(shiftDTO.getShiftEnd()));
-                shift.setShiftStart(shiftStart);
-                shift.setShiftEnd(shiftEnd);
+                Shift shift = shiftRepository.findShiftByShiftStartAndShiftEnd(shiftStart, shiftEnd);
+                if(shift == null){
+                    shift = new Shift();
+                    shift.setShiftStart(shiftStart);
+                    shift.setShiftEnd(shiftEnd);
+                }
                 shift.setDay(day);
+                shift.setMinEmployees(shiftDTO.getMinEmployees());
+                shift.setPreferredEmployees(shiftDTO.getPreferredEmployees());
                 shifts.add(shift);
             }
             day.setShifts(shifts);

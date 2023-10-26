@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 function Schedule(props) {
     const {employees, schedule, scheduleId} = props;
+    console.log(schedule)
     const dates = Object.keys(schedule).sort();
     const handleSave = () => {
         fetch("/api/schedule/save", {
