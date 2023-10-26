@@ -31,11 +31,11 @@ public class ScheduleWriter {
     protected void scheduleOneDay(Day day){
         List<Employee> scheduledEmployees = new ArrayList<>();
         List<Employee> availableEmployees = getAvailableEmployees(day.getDate());
-        for(int i = 0; i < day.getMinEmployees() && i < availableEmployees.size(); i++){
+        for(int i = 0; i < day.getShifts().get(0).getMinEmployees() && i < availableEmployees.size(); i++){
             scheduledEmployees.add(availableEmployees.get(i));
         }
-        if(day.getMinEmployees() > scheduledEmployees.size()){
-            addEmployeesWithMostRequests(day.getMinEmployees() - scheduledEmployees.size(), scheduledEmployees);
+        if(day.getShifts().get(0).getMinEmployees() > scheduledEmployees.size()){
+            addEmployeesWithMostRequests(day.getShifts().get(0).getMinEmployees() - scheduledEmployees.size(), scheduledEmployees);
         }
         schedule.put(day.getDate(), scheduledEmployees);
         calculateWorkedHours(scheduledEmployees);
