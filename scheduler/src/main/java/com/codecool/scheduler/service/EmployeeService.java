@@ -38,15 +38,10 @@ public class EmployeeService {
     public Employee getEmployee(String employeeName){
         return employeeRepository.findByName(employeeName);
     }
-    public Employee getEmployeeWorkingDays(String employeeName, LocalDate date){
-        Employee employee = employeeRepository.findByName(employeeName);
-        if(employee != null){
-            Schedule schedule = scheduleRepository.getScheduleByDate(date);
-            if(schedule != null){
-                employee.setWorkDays(schedule.getWorkDays(employee));
-            }
-        }
-        return employee;
+    public Employee getEmployeeScheduledShifts(String employeeName, LocalDate date){
+
+        //TODO add method
+        return null;
     }
 
     public void resetWorkHours(){

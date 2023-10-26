@@ -26,8 +26,6 @@ public class Employee implements Comparable<Employee>{
     private Set<Request> requests;
     private int hoursPerMonth;
     private int remainingHoursThisMonth;
-    @Transient
-    private List<LocalDate> workDays;
 
     public void addWorkedHours(int workHours){
         remainingHoursThisMonth -= workHours;
@@ -58,7 +56,7 @@ public class Employee implements Comparable<Employee>{
                 ", requests=" + requests +
                 ", hoursPerMonth=" + hoursPerMonth +
                 ", remainingHoursThisMonth=" + remainingHoursThisMonth +
-                ", workDays=" + workDays +
+                ", workDays=" +
                 '}';
     }
 

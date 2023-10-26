@@ -37,7 +37,7 @@ public class ScheduleWriter {
         if(day.getShifts().get(0).getMinEmployees() > scheduledEmployees.size()){
             addEmployeesWithMostRequests(day.getShifts().get(0).getMinEmployees() - scheduledEmployees.size(), scheduledEmployees);
         }
-        schedule.put(day.getDate(), scheduledEmployees);
+        schedule.put(day, scheduledEmployees);
         calculateWorkedHours(scheduledEmployees);
 
     }

@@ -4,6 +4,7 @@ import com.codecool.scheduler.dto.ScheduleRequestDTO;
 import com.codecool.scheduler.logic.ScheduleWriterFactory;
 import com.codecool.scheduler.model.Day;
 import com.codecool.scheduler.model.Schedule;
+import com.codecool.scheduler.model.Shift;
 import com.codecool.scheduler.repository.DayRepository;
 import com.codecool.scheduler.repository.EmployeeRepository;
 import com.codecool.scheduler.repository.ScheduleRepository;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.Optional;
@@ -31,6 +33,12 @@ public class ScheduleService {
     }
 
     public void addDailyRequirements(List<Day> days){
+        for(Day day : days){
+            if(day.getShifts().size() == 0){
+                Shift placeholder = new Shift();
+                day.setShifts(List.of(placeholder));
+            }
+        }
         dayRepository.saveAll(days);
     }
     public Schedule generateSchedule(ScheduleRequestDTO scheduleRequestDTO) {

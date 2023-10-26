@@ -9,18 +9,18 @@ import java.util.*;
 @Getter
 public class Schedule {
     private UUID id;
-    private Map<LocalDate, List<Employee>> schedule;
+    private Map<Day, List<Employee>> schedule;
 
     public Schedule() {
         this.id = UUID.randomUUID();
         this.schedule = new HashMap<>();
     }
-    public void put(LocalDate date, List<Employee> employees){
+    public void put(Day date, List<Employee> employees){
         schedule.put(date, employees);
     }
 
-    public List<LocalDate> getWorkDays(Employee employee){
-        List<LocalDate> workdays = new ArrayList<>();
+    public List<Day> getWorkDays(Employee employee){
+        List<Day> workdays = new ArrayList<>();
         schedule.forEach((date, employees) -> {
             if(employees.contains(employee)) {
             workdays.add(date);

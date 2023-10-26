@@ -1,5 +1,6 @@
 package com.codecool.scheduler.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import jakarta.persistence.*;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,8 +21,12 @@ public class Shift {
     private Long id;
     private LocalDateTime shiftStart;
     private LocalDateTime shiftEnd;
-    @ManyToOne
-    private Day day;
     private int minEmployees;
     private int preferredEmployees;
+    @ManyToOne
+    @JsonBackReference
+    private Day day;
+    @ManyToMany
+    private List<Employee> scheduledEmployees;
+
 }
