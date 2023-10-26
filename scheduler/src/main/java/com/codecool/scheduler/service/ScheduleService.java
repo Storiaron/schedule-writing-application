@@ -13,6 +13,7 @@ import com.codecool.scheduler.repository.ScheduleRepository;
 import com.codecool.scheduler.repository.ShiftRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,9 +39,11 @@ public class ScheduleService {
         this.shiftRepository = shiftRepository;
     }
 
+    @Transactional
     public void addDailyRequirements(List<DayDTO> dayDTOs){
         for(DayDTO dayDTO : dayDTOs){
             Day day = new Day();
+            day.setDate(dayDTO.getDate());
             List<Shift> shifts = new ArrayList<>();
             for(ShiftDTO shiftDTO : dayDTO.getShifts()){
                 Shift shift = new Shift();
@@ -51,6 +54,7 @@ public class ScheduleService {
                 shift.setDay(day);
                 shifts.add(shift);
             }
+            day.setShifts(shifts);
             dayRepository.save(day);
             shiftRepository.saveAll(shifts);
         }
