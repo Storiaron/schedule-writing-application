@@ -33,12 +33,7 @@ public class ScheduleService {
     }
 
     public void addDailyRequirements(List<Day> days){
-        for(Day day : days){
-            if(day.getShifts().size() == 0){
-                Shift placeholder = new Shift();
-                day.setShifts(List.of(placeholder));
-            }
-        }
+
         dayRepository.saveAll(days);
     }
     public Schedule generateSchedule(ScheduleRequestDTO scheduleRequestDTO) {

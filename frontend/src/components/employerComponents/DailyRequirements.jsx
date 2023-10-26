@@ -1,41 +1,103 @@
 import DatePicker from "react-datepicker";
 import { eachDayOfInterval } from 'date-fns';
 import { useState } from "react";
+
 function DailyRequirements() {
   const [date, setDate] = useState(new Date());
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [minEmployees, setMinEmployees] = useState(1);
-  const [preferredEmployees, setPreferredEmployees] = useState(1);
+  const [shiftStart, setShiftStart] = useState([]);
+  const [shiftEnd, setShiftEnd] = useState([]);
+  const [minEmployees, setMinEmployees] = useState([]);
+  const [preferredEmployees, setPreferredEmployees] = useState([]);
+  const [numOfShifts, setNumOfShifts] = useState(1);
+
   const handleChange = (range) => {
     const [startDate, endDate] = range;
     setStartDate(startDate);
     setEndDate(endDate);
   };
-  const handleRequirementChange = (e, setterFunction) => {
-    setterFunction(e.target.value);
+
+  const handleMinEmployeeChange = (e, i) => {
+    const updatedMinEmployees = [...minEmployees];
+    updatedMinEmployees[i] = e.target.value;
+    setMinEmployees(updatedMinEmployees);
   }
+  const handlePreferredEmployeeChange = (e, i) => {
+    const updatedPreferredEmployees = [...preferredEmployees];
+    updatedPreferredEmployees[i] = e.target.value;
+    setMinEmployees(updatedPreferredEmployees);
+  }
+
+  const handleShiftStartChange = (e, i) => {
+    const updatedShiftStart = [...shiftStart];
+    updatedShiftStart[i] = e.target.value;
+    setShiftStart(updatedShiftStart);
+  };
+
+  const handleShiftEndChange = (e, i) => {
+    const updatedShiftEnd = [...shiftEnd];
+    updatedShiftEnd[i] = e.target.value;
+    setShiftEnd(updatedShiftEnd);
+  };
+
   const handleInterval = () => {
-    const dates = eachDayOfInterval({start: startDate, end: endDate});
-    return dates.map(date => {return {"date": date, "minEmployees": minEmployees, "preferredEmployees": preferredEmployees}});
-  }
+    const dates = eachDayOfInterval({ start: startDate, end: endDate });
+    return dates.map((date, index) => ({
+      "date": date,
+      "shifts": [
+        {
+          "shiftStart": shiftStart[index],
+          "shiftEnd": shiftEnd[index],
+          "minEmployees": minEmployees[index] || 1,
+          "preferredEmployees": preferredEmployees[index] || 1,
+        },
+      ],
+    }));
+  };
+
   const handleSubmit = () => {
-    let requestData; 
-    if(startDate !== endDate){
-        requestData = handleInterval();
-    }
-    else {
-        requestData = { "date" : startDate, "minEmployees" : minEmployees, "preferredEmployees" : preferredEmployees }
+    let requestData;
+    if (startDate !== endDate) {
+      requestData = handleInterval();
+    } else {
+      requestData = {
+        "date": startDate,
+        "minEmployees": minEmployees[0] || 1,
+        "preferredEmployees": preferredEmployees[0] || 1,
+      };
     }
     console.log(requestData);
-     fetch("/api/schedule" , {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+    fetch("/api/schedule", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-        body: JSON.stringify(requestData)  
-    }) 
+      body: JSON.stringify(requestData)
+    });
+  };
+
+  const addShift = () => {
+    setNumOfShifts(numOfShifts + 1);
+  };
+
+  const shiftSelectors = [];
+
+  for (let i = 0; i < numOfShifts; i++) {
+    shiftSelectors.push(
+      <div key={i}>
+        <label>Shift start</label>
+        <input type="time" onChange={(e) => handleShiftStartChange(e, i)} />
+        <label>Shift end</label>
+        <input type="time" onChange={(e) => handleShiftEndChange(e, i)} />
+        <label>Min employees:</label>
+        <input type="number" min="1" onChange={(e) => handleMinEmployeeChange(e, i)} />
+        <label>Preferred employees:</label>
+        <input type="number" onChange={(e) => handlePreferredEmployeeChange(e, i)} />
+      </div>
+    );
   }
+
   return (
     <div>
       <DatePicker
@@ -46,13 +108,13 @@ function DailyRequirements() {
         endDate={endDate}
         selectsRange
       />
-      <label>Min employees:</label>
-  <input type="number" id="quantity" name="quantity" min="1" onChange={(e) => handleRequirementChange(e, setMinEmployees)}></input>
-      <label>Preferred employees:</label>
-  <input type="number" id="quantity" name="quantity" min={minEmployees} onChange={(e) => handleRequirementChange(e, setPreferredEmployees)}></input>
+      {shiftSelectors}
+      <button onClick={addShift}>Add Shift</button>
       <button onClick={handleSubmit}>Submit</button>
     </div>
   );
 }
 
 export default DailyRequirements;
+
+
