@@ -22,11 +22,14 @@ function DailyRequirements() {
     const updatedMinEmployees = [...minEmployees];
     updatedMinEmployees[i] = e.target.value;
     setMinEmployees(updatedMinEmployees);
+    if(minEmployees > preferredEmployees){
+      setPreferredEmployees(minEmployees)
+    }
   };
   const handlePreferredEmployeeChange = (e, i) => {
     const updatedPreferredEmployees = [...preferredEmployees];
     updatedPreferredEmployees[i] = e.target.value;
-    setMinEmployees(updatedPreferredEmployees);
+    setPreferredEmployees(updatedPreferredEmployees);
   };
 
   const handleShiftStartChange = (e, i) => {
@@ -40,22 +43,26 @@ function DailyRequirements() {
     updatedShiftEnd[i] = e.target.value;
     setShiftEnd(updatedShiftEnd);
   };
+  const createShifts = () => {
+    let shifts = []
+    for(let i = 0; i < numOfShifts; i++){
+      let shift = {};
+      shift.shiftStart = shiftStart[i];
+      shift.shiftEnd = shiftEnd[i];
+      shift.minEmployees = minEmployees[i];
+      shift.preferredEmployees = preferredEmployees[i];
+      shifts.push(shift);
+    }
+    return shifts;
+  }
 
   const handleInterval = () => {
     const dates = eachDayOfInterval({ start: startDate, end: endDate });
     return dates.map((date, index) => ({
       date: date,
-      shifts: [
-        {
-          shiftStart: shiftStart[index] || "00:01",
-          shiftEnd: shiftEnd[index] || "00:01",
-          minEmployees: minEmployees[index] || 1,
-          preferredEmployees: preferredEmployees[index] || 1,
-        },
-      ],
+      shifts: createShifts(),
     }));
   };
-
   const handleSubmit = () => {
     let requestData;
     if (startDate !== endDate) {
@@ -63,12 +70,7 @@ function DailyRequirements() {
     } else {
       requestData = {
         date: startDate,
-        shifts: [
-          {
-            minEmployees: minEmployees[0] || 1,
-            preferredEmployees: preferredEmployees[0] || 1,
-          },
-        ],
+        shifts: createShifts(),
       };
     }
     console.log(requestData);
@@ -97,12 +99,13 @@ function DailyRequirements() {
         <label>Min employees:</label>
         <input
           type="number"
-          min="1"
+          min={1}
           onChange={(e) => handleMinEmployeeChange(e, i)}
         />
         <label>Preferred employees:</label>
         <input
           type="number"
+          min={minEmployees}
           onChange={(e) => handlePreferredEmployeeChange(e, i)}
         />
       </div>
