@@ -38,7 +38,7 @@ public class ScheduleController {
         return scheduleService.generateSchedule(scheduleRequestDTO);
     }
     @PutMapping("/save")
-    public void saveSchedule(@RequestBody UUID scheduleId){
-        scheduleService.saveSchedule(scheduleId);
+    public void saveSchedule(@RequestBody Schedule schedule){
+        scheduleService.saveSchedule(schedule);
     }
 }

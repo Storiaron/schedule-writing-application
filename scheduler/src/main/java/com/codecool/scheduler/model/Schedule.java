@@ -11,46 +11,37 @@ import java.util.*;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "schedule_entries",
-            joinColumns = @JoinColumn(name = "schedule_id"),
-            inverseJoinColumns = @JoinColumn(name = "schedule_entry_id"))
-    private List<ScheduleEntry> schedule;
-    public void put(Day day, List<Employee> employees){
-        ScheduleEntry scheduleEntry = new ScheduleEntry();
-        scheduleEntry.setDay(day);
-        scheduleEntry.setScheduledEmployees(employees);
-        schedule.add(scheduleEntry);
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Day> schedule;
+    public Schedule() {
+        schedule = new ArrayList<>();
+    }
+    public void add(Day day){
+        schedule.add(day);
     }
 
     public List<Day> getWorkDays(Employee employee){
-        List<Day> workdays = new ArrayList<>();
-        for(ScheduleEntry scheduleEntry : schedule){
-            if(scheduleEntry.getScheduledEmployees().contains(employee)){
-                workdays.add(scheduleEntry.getDay());
-            }
-        }
-        return workdays;
+        //TODO
+        return null;
     }
 
     //TODO rename
-    public List<Employee> getWithDate(LocalDate date){
-        for(ScheduleEntry scheduleEntry : schedule){
-            if(scheduleEntry.getDay().getDate().equals(date)){
-                return scheduleEntry.getScheduledEmployees();
+    private boolean getWithDate(LocalDate date, Employee employee){
+        for(Day day : schedule){
+            if(day.getDate().equals(date)){
+                return day.getShifts().stream().anyMatch(shift -> shift.getScheduledEmployees().contains(employee));
             }
         }
-        return new ArrayList<>();
+        return false;
     }
     public int getContinuousWorkDays(Employee employee, Day day){
         int counter = 1;
         for(int i = 1; i < schedule.size(); i++){
-            if(getWithDate(day.getDate().minusDays(i)).contains(employee)){
+            if(getWithDate(day.getDate().minusDays(i), employee)){
                 counter++;
             }
             else {
@@ -61,7 +52,9 @@ public class Schedule {
     }
 
     public boolean isDateInSchedule(LocalDate date){
-       return schedule.stream().anyMatch(entry -> entry.getDay().getDate().equals(date));
+       return schedule.stream().anyMatch(day -> day.getDate().equals(date));
     }
+
+
 }
 

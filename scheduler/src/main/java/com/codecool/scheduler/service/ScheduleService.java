@@ -7,10 +7,7 @@ import com.codecool.scheduler.logic.ScheduleWriterFactory;
 import com.codecool.scheduler.model.Day;
 import com.codecool.scheduler.model.Schedule;
 import com.codecool.scheduler.model.Shift;
-import com.codecool.scheduler.repository.DayRepository;
-import com.codecool.scheduler.repository.EmployeeRepository;
-import com.codecool.scheduler.repository.ScheduleRepository;
-import com.codecool.scheduler.repository.ShiftRepository;
+import com.codecool.scheduler.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +17,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ScheduleService {
@@ -73,18 +69,19 @@ public class ScheduleService {
         LocalDate endingDate = startingDate.plusMonths(1);
         List<Day> days = dayRepository.findAllByDateBetween(startingDate, endingDate);
         Schedule schedule = scheduleWriterFactory.getScheduleWriter(typeofSchedule).createSchedule(days);
-        scheduleRepository.addPrototype(schedule);
         return schedule;
     }
-
-    public void saveSchedule(UUID scheduleId){
-        Schedule schedule = scheduleRepository.getSchedulePrototype(scheduleId);
+    @Transactional
+    public void saveSchedule(Schedule schedule){
         addWorkHours(schedule);
-        scheduleRepository.saveSchedule(schedule);
+        schedule.getSchedule();
+        for(Day day : schedule.getSchedule()){
+            shiftRepository.saveAll(day.getShifts());
+        }
     }
 
     private void addWorkHours(Schedule schedule){
-        schedule.getSchedule().forEach(el -> employeeRepository.saveAll(el.getScheduledEmployees()));
+        schedule.getSchedule().forEach(el -> el.getShifts().forEach(shift -> employeeRepository.saveAll(shift.getScheduledEmployees())));
     }
 
     public List<String> getScheduleOptions(){

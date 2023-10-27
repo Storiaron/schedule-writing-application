@@ -24,6 +24,13 @@ public class Employee implements Comparable<Employee>{
     @OneToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     @JsonManagedReference
     private Set<Request> requests;
+    @ManyToMany
+    @JoinTable(
+            name = "employee_per_shift",
+            joinColumns = @JoinColumn(name = "shift_id"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id")
+    )
+    private List<Shift> scheduledShifts;
     private int hoursPerMonth;
     private int remainingHoursThisMonth;
 
