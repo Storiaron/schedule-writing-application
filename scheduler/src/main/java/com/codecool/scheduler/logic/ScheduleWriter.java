@@ -3,8 +3,9 @@ package com.codecool.scheduler.logic;
 import com.codecool.scheduler.model.Day;
 import com.codecool.scheduler.model.Employee;
 import com.codecool.scheduler.model.Schedule;
+import com.codecool.scheduler.model.Shift;
 import com.codecool.scheduler.service.EmployeeService;
-import java.time.LocalDate;
+
 import java.util.*;
 public class ScheduleWriter {
 
@@ -30,21 +31,22 @@ public class ScheduleWriter {
     }
     protected void scheduleOneDay(Day day){
         List<Employee> scheduledEmployees = new ArrayList<>();
-        List<Employee> availableEmployees = getAvailableEmployees(day.getDate());
-        for(int i = 0; i < day.getMinEmployees() && i < availableEmployees.size(); i++){
+        List<Employee> availableEmployees = getAvailableEmployees(day);
+        for(int i = 0; i < day.getShifts().get(0).getMinEmployees() && i < availableEmployees.size(); i++){
             scheduledEmployees.add(availableEmployees.get(i));
         }
-        if(day.getMinEmployees() > scheduledEmployees.size()){
-            addEmployeesWithMostRequests(day.getMinEmployees() - scheduledEmployees.size(), scheduledEmployees);
+        if(day.getShifts().get(0).getMinEmployees() > scheduledEmployees.size()){
+            addEmployeesWithMostRequests(day.getShifts().get(0).getMinEmployees() - scheduledEmployees.size(), scheduledEmployees);
         }
-        schedule.put(day.getDate(), scheduledEmployees);
-        calculateWorkedHours(scheduledEmployees);
+        day.getShifts().get(0).setScheduledEmployees(scheduledEmployees);
+        schedule.add(day);
+        scheduleShiftForEmployees(day.getShifts().get(0), scheduledEmployees);
 
     }
-    protected List<Employee> getAvailableEmployees(LocalDate date){
+    protected List<Employee> getAvailableEmployees(Day day){
         List<Employee> availableEmployees = new ArrayList<>();
         for(Employee employee : employees){
-            if(employee.isAvailable(date) && employee.getRemainingHoursThisMonth() >= shiftLength){
+            if(employee.isAvailable(day.getDate()) && employee.getRemainingHoursThisMonth() >= shiftLength){
                 availableEmployees.add(employee);
             }
         }
@@ -63,9 +65,10 @@ public class ScheduleWriter {
         }
     }
 
-    protected void calculateWorkedHours(List<Employee> scheduledEmployees){
+    protected void scheduleShiftForEmployees(Shift shift, List<Employee> scheduledEmployees){
         for(Employee employee : scheduledEmployees){
             employee.addWorkedHours(shiftLength);
+            employee.getScheduledShifts().add(shift);
         }
     }
 }

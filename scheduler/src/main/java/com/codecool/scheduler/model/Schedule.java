@@ -1,42 +1,71 @@
 package com.codecool.scheduler.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.*;
-
+@Entity
 @Getter
+@Setter
 public class Schedule {
-    private UUID id;
-    private Map<LocalDate, List<Employee>> schedule;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "schedule")
+    @JsonManagedReference
+    private List<Day> schedule;
+    private boolean saved;
+    public void add(Day day){
+        schedule.add(day);
+    }
 
     public Schedule() {
-        this.id = UUID.randomUUID();
-        this.schedule = new HashMap<>();
-    }
-    public void put(LocalDate date, List<Employee> employees){
-        schedule.put(date, employees);
+        schedule = new ArrayList<>();
     }
 
-    public List<LocalDate> getWorkDays(Employee employee){
-        List<LocalDate> workdays = new ArrayList<>();
-        schedule.forEach((date, employees) -> {
-            if(employees.contains(employee)) {
-            workdays.add(date);
+    public List<Day> getWorkDays(Employee employee){
+        //TODO
+        return null;
+    }
+
+    //TODO rename
+    private boolean getWithDate(LocalDate date, Employee employee){
+        for(Day day : schedule){
+            if(day.getDate().equals(date)){
+                return day.getShifts().stream().anyMatch(shift -> shift.getScheduledEmployees().contains(employee));
             }
-        });
-        return workdays;
+        }
+        return false;
+    }
+    public int getContinuousWorkDays(Employee employee, Day day){
+        int counter = 1;
+        for(int i = 1; i < schedule.size(); i++){
+            if(getWithDate(day.getDate().minusDays(i), employee)){
+                counter++;
+            }
+            else {
+                return counter;
+            }
+        }
+        return counter;
     }
 
     public boolean isDateInSchedule(LocalDate date){
-        return schedule.keySet().contains(date);
+       return schedule.stream().anyMatch(day -> day.getDate().equals(date));
     }
 
     @Override
     public String toString() {
-        return "Schedule{" +
-                "schedule=" + schedule +
+        return "{" +
+                "id:" + id +
+                ", schedule:" + schedule +
                 '}';
     }
 }
+

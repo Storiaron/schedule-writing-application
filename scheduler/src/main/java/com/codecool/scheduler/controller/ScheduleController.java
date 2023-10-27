@@ -1,5 +1,6 @@
 package com.codecool.scheduler.controller;
 
+import com.codecool.scheduler.dto.DayDTO;
 import com.codecool.scheduler.dto.ScheduleRequestDTO;
 import com.codecool.scheduler.model.Day;
 import com.codecool.scheduler.model.Employee;
@@ -25,11 +26,11 @@ public class ScheduleController {
 
     @GetMapping("/options")
     public List<String> getScheduleOptions(){
-        return List.of("default");
+        return scheduleService.getScheduleOptions();
     }
 
     @PostMapping("")
-    public void addDailyRequirements(@RequestBody List<Day> days){
+    public void addDailyRequirements(@RequestBody List<DayDTO> days){
         scheduleService.addDailyRequirements(days);
     }
     @PostMapping("/generate")
@@ -37,7 +38,7 @@ public class ScheduleController {
         return scheduleService.generateSchedule(scheduleRequestDTO);
     }
     @PutMapping("/save")
-    public void saveSchedule(@RequestBody UUID scheduleId){
-        scheduleService.saveSchedule(scheduleId);
+    public void saveSchedule(@RequestBody Long scheduleId){
+        scheduleService.confirmSchedule(scheduleId);
     }
 }

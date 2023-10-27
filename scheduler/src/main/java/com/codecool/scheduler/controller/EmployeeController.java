@@ -33,8 +33,8 @@ public class EmployeeController {
         return employeeService.getEmployee(employeeName);
     }
     @PutMapping("/{employeeName}")
-    public Employee getEmployeeWorkDays(@PathVariable String employeeName, @RequestBody LocalDate date){
-        return employeeService.getEmployeeWorkingDays(employeeName, date);
+    public Employee getEmployeeScheduledShifts(@PathVariable String employeeName, @RequestBody LocalDate date){
+        return employeeService.getEmployeeScheduledShifts(employeeName, date);
     }
     @GetMapping("/reset")
     public void resetWorkHours(){

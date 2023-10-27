@@ -24,10 +24,16 @@ public class Employee implements Comparable<Employee>{
     @OneToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     @JsonManagedReference
     private Set<Request> requests;
+    @ManyToMany
+    @JoinTable(
+            name = "employee_per_shift",
+            joinColumns = @JoinColumn(name = "shift_id"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id")
+    )
+    @JsonBackReference
+    private List<Shift> scheduledShifts;
     private int hoursPerMonth;
     private int remainingHoursThisMonth;
-    @Transient
-    private List<LocalDate> workDays;
 
     public void addWorkedHours(int workHours){
         remainingHoursThisMonth -= workHours;
@@ -58,7 +64,7 @@ public class Employee implements Comparable<Employee>{
                 ", requests=" + requests +
                 ", hoursPerMonth=" + hoursPerMonth +
                 ", remainingHoursThisMonth=" + remainingHoursThisMonth +
-                ", workDays=" + workDays +
+                ", workDays=" +
                 '}';
     }
 
