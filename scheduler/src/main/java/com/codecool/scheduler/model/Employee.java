@@ -30,6 +30,7 @@ public class Employee implements Comparable<Employee>{
             joinColumns = @JoinColumn(name = "shift_id"),
             inverseJoinColumns = @JoinColumn(name = "employee_id")
     )
+    @JsonBackReference
     private List<Shift> scheduledShifts;
     private int hoursPerMonth;
     private int remainingHoursThisMonth;

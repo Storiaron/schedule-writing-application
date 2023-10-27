@@ -1,5 +1,6 @@
 package com.codecool.scheduler.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -22,10 +23,18 @@ public class Day {
     @OneToMany(fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Shift> shifts;
+    @ManyToOne
+    @JsonBackReference
+    private Schedule schedule;
 
     @Override
     public String toString() {
-        return date.toString();
+        return "{" +
+                "id=" + id +
+                ", date=" + date +
+                ", shifts=" + shifts +
+                ", schedule=" + schedule +
+                '}';
     }
 
     @Override
@@ -40,4 +49,5 @@ public class Day {
     public int hashCode() {
         return Objects.hash(date);
     }
+
 }

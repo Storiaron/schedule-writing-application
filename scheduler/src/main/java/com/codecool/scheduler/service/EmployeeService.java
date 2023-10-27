@@ -3,6 +3,7 @@ package com.codecool.scheduler.service;
 import com.codecool.scheduler.dto.EmployeeDTO;
 import com.codecool.scheduler.model.Employee;
 import com.codecool.scheduler.repository.EmployeeRepository;
+import com.codecool.scheduler.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

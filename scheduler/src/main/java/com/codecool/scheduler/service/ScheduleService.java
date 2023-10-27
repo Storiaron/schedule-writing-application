@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ScheduleService {
@@ -69,14 +70,25 @@ public class ScheduleService {
         LocalDate endingDate = startingDate.plusMonths(1);
         List<Day> days = dayRepository.findAllByDateBetween(startingDate, endingDate);
         Schedule schedule = scheduleWriterFactory.getScheduleWriter(typeofSchedule).createSchedule(days);
+        schedule.setSaved(false);
+        saveSchedule(schedule);
         return schedule;
     }
     @Transactional
     public void saveSchedule(Schedule schedule){
-        addWorkHours(schedule);
+        scheduleRepository.save(schedule);
         schedule.getSchedule();
         for(Day day : schedule.getSchedule()){
             shiftRepository.saveAll(day.getShifts());
+        }
+    }
+    @Transactional
+    public void confirmSchedule(Long id){
+        Optional<Schedule> schedule = scheduleRepository.findById(id);
+        if(schedule.isPresent()){
+            schedule.get().setSaved(true);
+            scheduleRepository.save(schedule.get());
+            addWorkHours(schedule.get());
         }
     }
 

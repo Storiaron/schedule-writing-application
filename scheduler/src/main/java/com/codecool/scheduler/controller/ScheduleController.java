@@ -38,7 +38,7 @@ public class ScheduleController {
         return scheduleService.generateSchedule(scheduleRequestDTO);
     }
     @PutMapping("/save")
-    public void saveSchedule(@RequestBody Schedule schedule){
-        scheduleService.saveSchedule(schedule);
+    public void saveSchedule(@RequestBody Long scheduleId){
+        scheduleService.confirmSchedule(scheduleId);
     }
 }

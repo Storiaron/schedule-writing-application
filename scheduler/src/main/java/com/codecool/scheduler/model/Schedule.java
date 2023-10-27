@@ -1,6 +1,8 @@
 package com.codecool.scheduler.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,16 +13,19 @@ import java.util.*;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "schedule")
+    @JsonManagedReference
     private List<Day> schedule;
-    public Schedule() {
-        schedule = new ArrayList<>();
-    }
+    private boolean saved;
     public void add(Day day){
+        if(schedule == null){
+            schedule = new ArrayList<>();
+        }
         schedule.add(day);
     }
 
@@ -55,6 +60,12 @@ public class Schedule {
        return schedule.stream().anyMatch(day -> day.getDate().equals(date));
     }
 
-
+    @Override
+    public String toString() {
+        return "{" +
+                "id:" + id +
+                ", schedule:" + schedule +
+                '}';
+    }
 }
 
