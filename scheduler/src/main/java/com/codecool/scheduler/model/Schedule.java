@@ -13,7 +13,6 @@ import java.util.*;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,10 +22,11 @@ public class Schedule {
     private List<Day> schedule;
     private boolean saved;
     public void add(Day day){
-        if(schedule == null){
-            schedule = new ArrayList<>();
-        }
         schedule.add(day);
+    }
+
+    public Schedule() {
+        schedule = new ArrayList<>();
     }
 
     public List<Day> getWorkDays(Employee employee){
