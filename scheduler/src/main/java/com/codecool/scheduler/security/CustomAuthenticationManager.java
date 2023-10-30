@@ -27,11 +27,10 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         String password = authentication.getCredentials().toString();
 
         Authentication auth = null;
-        UserDetails client = employeeDetailsService.loadUserByUsername(name);
-
-        if (passwordEncoder.matches( password, client.getPassword())) {
+        UserDetails employee = employeeDetailsService.loadUserByUsername(name);
+        if (passwordEncoder.matches(password, employee.getPassword())) {
             auth = new UsernamePasswordAuthenticationToken(
-                    name, password, client.getAuthorities());
+                    name, password, employee.getAuthorities());
         }
         return auth;
     }

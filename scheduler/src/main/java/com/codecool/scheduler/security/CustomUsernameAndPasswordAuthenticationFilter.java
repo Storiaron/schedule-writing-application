@@ -44,7 +44,6 @@ public class CustomUsernameAndPasswordAuthenticationFilter extends UsernamePassw
         try {
             byte[] inputStreamBytes = StreamUtils.copyToByteArray(request.getInputStream());
             LoginDTO loginDTO = new ObjectMapper().readValue(inputStreamBytes, LoginDTO.class);
-
             return customAuthenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginDTO.username(),
@@ -62,7 +61,7 @@ public class CustomUsernameAndPasswordAuthenticationFilter extends UsernamePassw
                                          FilterChain chain,
                                          Authentication authResult) throws IOException, ServletException {
 
-        String name = String.valueOf(authResult.getPrincipal());;
+        String name = String.valueOf(authResult.getPrincipal());
         Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
         List<String> roles = new ArrayList<>(authorities.size());
         for (GrantedAuthority authority : authorities) {
@@ -70,7 +69,6 @@ public class CustomUsernameAndPasswordAuthenticationFilter extends UsernamePassw
         }
 
         String accessToken = getJwtToken(name, roles);
-
         response.setHeader("Authorization", "Bearer " + accessToken);
     }
 

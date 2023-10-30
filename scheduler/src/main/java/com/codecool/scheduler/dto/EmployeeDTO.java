@@ -1,5 +1,6 @@
 package com.codecool.scheduler.dto;
 
+import com.codecool.scheduler.model.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,5 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EmployeeDTO {
-    private String name;
+    private String username;
+    private String password;
+    private Role role;
 }

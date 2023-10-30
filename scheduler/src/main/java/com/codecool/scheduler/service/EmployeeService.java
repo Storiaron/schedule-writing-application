@@ -23,11 +23,11 @@ public class EmployeeService {
 
     public void addEmployee(EmployeeDTO employeeDTO){
         Employee employee = new Employee();
-        employee.setName(employeeDTO.getName());
+        employee.setName(employeeDTO.getUsername());
         employeeRepository.save(employee);
     }
     public Employee loginEmployee(EmployeeDTO employeeDTO){
-        return employeeRepository.findByName(employeeDTO.getName());
+        return employeeRepository.findByName(employeeDTO.getUsername());
     }
     @Transactional
     public List<Employee> getAllEmployees(){

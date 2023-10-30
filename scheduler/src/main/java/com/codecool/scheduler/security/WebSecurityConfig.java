@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -29,7 +30,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/employee/login").permitAll()
+                     /*   .requestMatchers(HttpMethod.POST, "/api/employee/login").permitAll() */
+                        .requestMatchers(HttpMethod.POST, "/api/employee").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/request").hasAnyRole("Employee", "Employer")
                         .requestMatchers(HttpMethod.POST, "/api/schedule").hasRole("Employer")
                         .requestMatchers(HttpMethod.POST, "/api/schedule/generate").hasRole("Employer")
@@ -38,12 +40,13 @@ public class WebSecurityConfig {
                 )
                 .addFilterAfter(customUsernameAndPasswordAuthenticationFilter(), ExceptionTranslationFilter.class)
                 .addFilterAfter(bearerTokenAuthenticatingFilter(), ExceptionTranslationFilter.class)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         ;
         return http.build();
     }
     @Bean
     public AuthenticationManager customAuthenticationManager() {
-        return new CustomAuthenticationManager(clientDetailsService(), passwordEncoder());
+        return new CustomAuthenticationManager(employeeDetailsService(), passwordEncoder());
     }
 
     @Bean
@@ -52,7 +55,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public EmployeeDetailsService clientDetailsService() {
+    public EmployeeDetailsService employeeDetailsService() {
         return new EmployeeDetailsService(employeeRepository);
     }
 
@@ -63,7 +66,7 @@ public class WebSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new NoPasswordEncoder();
     }
 
     @Bean
