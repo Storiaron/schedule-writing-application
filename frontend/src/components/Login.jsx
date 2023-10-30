@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [unSuccesfulLogin, setUnSuccesfulLogin] = useState(false);
+  const [loginStatus, setLoginStatus] = useState("base");
   const handleEnter = (event) => {
     if(event.key === "enter"){
         handleSubmit();
@@ -30,17 +30,18 @@ const Login = () => {
       if(token != null){
       localStorage.setItem("token", token)
       localStorage.setItem("username", username)
+      setLoginStatus("success")
       }
       else {
-        setUnSuccesfulLogin(true);
+        setLoginStatus("error");
       }
     }
     else {
-      setUnSuccesfulLogin(true);
+      setLoginStatus("error");
     }
   };
 
-  return (
+  return loginStatus === "base" ? (
     <div className='loginform'>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
@@ -69,6 +70,10 @@ const Login = () => {
         <button type="submit">Login</button>
       </form>
     </div>
+  ) : loginStatus === "success" ? (
+<div className='loginform'>Login Succesful</div>
+  ) : (
+<div className='loginform'>Something went wrong, please try again</div>
   );
 };
 

@@ -64,7 +64,6 @@ public class ScheduleWriter {
             }
         }
     }
-
     protected void scheduleShiftForEmployees(Shift shift, List<Employee> scheduledEmployees){
         for(Employee employee : scheduledEmployees){
             employee.addWorkedHours(shiftLength);
