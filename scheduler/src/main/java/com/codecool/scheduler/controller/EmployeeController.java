@@ -41,10 +41,4 @@ public class EmployeeController {
     public void resetWorkHours(){
         employeeService.resetWorkHours();
     }
-    @PostMapping("/login")
-    @ResponseBody
-    public String loginEmployee(@RequestBody LoginDTO loginDTO){
-        System.out.println();
-        return "ok";
-    }
 }
