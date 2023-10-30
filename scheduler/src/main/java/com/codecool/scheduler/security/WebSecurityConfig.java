@@ -71,6 +71,6 @@ public class WebSecurityConfig {
 
     @Bean
     public TokenUtil tokenUtil() {
-        return new TokenUtil(clientDetailsService());
+        return new TokenUtil(employeeDetailsService());
     }
 }
