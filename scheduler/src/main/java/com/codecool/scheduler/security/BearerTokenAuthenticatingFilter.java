@@ -28,20 +28,18 @@ public class BearerTokenAuthenticatingFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         String token = request.getHeader("Authorization");
-
         if (token == null || !token.startsWith("Bearer")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        UserDetails client = tokenUtil.parseToken(token);
-
-        if (client == null) {
+        UserDetails employee = tokenUtil.parseToken(token);
+        if (employee == null) {
             throw new BadCredentialsException("invalid token found in Authorization header");
         }
 
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                "UserRegistrationApi", "", client.getAuthorities()
+                "UserRegistrationApi", "", employee.getAuthorities()
         );
 
         SecurityContextHolder.getContext().setAuthentication(authToken);

@@ -30,10 +30,11 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                     /*   .requestMatchers(HttpMethod.POST, "/api/employee/login").permitAll() */
                         .requestMatchers(HttpMethod.POST, "/api/employee").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/request").hasAnyRole("Employee", "Employer")
                         .requestMatchers(HttpMethod.POST, "/api/schedule").hasRole("Employer")
+                        .requestMatchers(HttpMethod.GET, "/api/schedule/options").hasRole("Employer")
+                        .requestMatchers(HttpMethod.GET, "api/employee").hasRole("Employer")
                         .requestMatchers(HttpMethod.POST, "/api/schedule/generate").hasRole("Employer")
                         .anyRequest()
                         .authenticated()
