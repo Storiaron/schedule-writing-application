@@ -10,14 +10,21 @@ function ScheduleRequest(){
     const [employees, setEmployees] = useState('');
 
     const fetchScheduleOptions = async () => {
-        const response = await fetch('/api/schedule/options')
+        const response = await fetch('/api/schedule/options', {
+          headers : {
+            "Authorization" : localStorage.getItem("token")
+          }})
         if(response.ok){
             const optionsData = await response.json();
             setOptions(optionsData);
         } 
     }
     const fetchEmployees = async () => {
-        const response = await fetch('/api/employee')
+        const response = await fetch('/api/employee', {
+          headers : {
+            "Authorization" : localStorage.getItem("token")
+          }
+        })
         if(response.ok){
             const employeeData = await response.json();
             setEmployees(employeeData);
@@ -33,6 +40,7 @@ function ScheduleRequest(){
         const scheduleData = await fetch('/api/schedule/generate', {
             method: 'POST',
             headers: {
+              'Authorization' : localStorage.getItem("token"),
               'Content-Type': 'application/json',
           },
             body: JSON.stringify({startingDate: date, typeofSchedule: selectedOption})  

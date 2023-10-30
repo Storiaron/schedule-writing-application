@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 
 function Schedule(props) {
   const {employees, schedule, scheduleId} = props;
-  console.log(new Date(schedule[0].shifts[0].shiftStart).getHours() + ":" + new Date(schedule[0].shifts[0].shiftStart).getMinutes())
   const handleSave = () => {
     fetch("/api/schedule/save", {
       method: "PUT",
       headers: {
+        'Authorization' : localStorage.getItem("token"),
         "Content-Type": "application/json",
       },
       body: JSON.stringify(scheduleId),

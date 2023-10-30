@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loggedInUser, setLoggedInUser] = useState('');
+  const [unSuccesfulLogin, setUnSuccesfulLogin] = useState(false);
   const handleEnter = (event) => {
     if(event.key === "enter"){
         handleSubmit();
@@ -18,7 +18,7 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch("/api/employee/login", {
+    const response = await fetch("/login", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -26,13 +26,17 @@ const Login = () => {
         body: JSON.stringify({"username": username, "password": password})  
     })
     if(response.ok){
-      const responseData = await response.json()
-      setLoggedInUser(responseData);
-      console.log(responseData)
+      let token = response.headers.get("Authorization");
+      if(token != null){
+      localStorage.setItem("token", token)
+      localStorage.setItem("username", username)
+      }
+      else {
+        setUnSuccesfulLogin(true);
+      }
     }
     else {
-      //TODO handle bad username
-      console.log(response);
+      setUnSuccesfulLogin(true);
     }
   };
 
