@@ -6,7 +6,6 @@ function DayOffRequest() {
   const [date, setDate] = useState(new Date());
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  console.log(localStorage.getItem("token"))
 
   const handleChange = (range) => {
     const [startDate, endDate] = range;

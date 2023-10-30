@@ -17,13 +17,3 @@ function Header() {
 }
 
 export default Header;
-/*
-<div className="header-options">
-          <Link to="/schedule" className="title">
-            Schedule
-          </Link>
-          <Link to="/dailyrequirements" className="title">
-            Daily Requirements
-          </Link>
-        </div>
-        */

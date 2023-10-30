@@ -30,6 +30,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.GET, "/api/employee/reset").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/employee").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/request").hasAnyRole("Employee", "Employer")
                         .requestMatchers(HttpMethod.POST, "/api/schedule").hasRole("Employer")
