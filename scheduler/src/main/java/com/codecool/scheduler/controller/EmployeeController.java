@@ -1,6 +1,7 @@
 package com.codecool.scheduler.controller;
 
 import com.codecool.scheduler.dto.EmployeeDTO;
+import com.codecool.scheduler.dto.LoginDTO;
 import com.codecool.scheduler.model.Employee;
 import com.codecool.scheduler.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +43,8 @@ public class EmployeeController {
     }
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<Employee> loginEmployee(@RequestBody EmployeeDTO employeeDTO){
-        Employee employee = employeeService.loginEmployee(employeeDTO);
-        //TODO check on frontend if response status was ok
-        if (employee == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(employee);
+    public String loginEmployee(@RequestBody LoginDTO loginDTO){
+        System.out.println();
+        return "ok";
     }
 }

@@ -21,6 +21,9 @@ public class Employee implements Comparable<Employee>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String password;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @OneToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     @JsonManagedReference
     private Set<Request> requests;

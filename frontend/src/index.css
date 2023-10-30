@@ -64,15 +64,6 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
-
-
-/* styles.css */
-.dropdown {
-  position: relative;
-  justify-content: flex-end;
-  display: flex;
-}
-
 button {
   background-color: #008CBA;
   color: white;
@@ -81,7 +72,11 @@ button {
   cursor: pointer;
   position: static;
 }
-
+.dropdown {
+  position: relative;
+  justify-content: flex-end;
+  display: flex;
+}
 .dropdown-content {
   position: absolute;
   background-color: #f9f9f9;
