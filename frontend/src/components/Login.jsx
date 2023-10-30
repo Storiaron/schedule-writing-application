@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const Login = () => {
   const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [loggedInUser, setLoggedInUser] = useState('');
   const handleEnter = (event) => {
     if(event.key === "enter"){
@@ -11,6 +12,9 @@ const Login = () => {
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,14 +23,16 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/json',
       },
-        body: JSON.stringify({"name": username})  
+        body: JSON.stringify({"username": username, "password": password})  
     })
     if(response.ok){
       const responseData = await response.json()
       setLoggedInUser(responseData);
+      console.log(responseData)
     }
     else {
       //TODO handle bad username
+      console.log(response);
     }
   };
 
@@ -35,7 +41,9 @@ const Login = () => {
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div>
-         <div className='label'> <label htmlFor="username">Username</label></div>
+          <div className='label'>
+            <label htmlFor="username">Username</label>
+          </div>
           <input
             type="text"
             id="username"
@@ -44,6 +52,16 @@ const Login = () => {
             onKeyDown={handleEnter}
           />
         </div>
+        <div className='label'>
+          <label htmlFor="password">Password</label>
+        </div>
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={handlePasswordChange}
+          onKeyDown={handleEnter}
+        />
         <button type="submit">Login</button>
       </form>
     </div>
