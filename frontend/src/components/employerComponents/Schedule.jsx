@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Schedule(props) {
   const {employees, schedule, scheduleId} = props;
- // console.log(JSON.stringify(schedule, null, 2))
+  console.log(new Date(schedule[0].shifts[0].shiftStart).getHours() + ":" + new Date(schedule[0].shifts[0].shiftStart).getMinutes())
   const handleSave = () => {
     fetch("/api/schedule/save", {
       method: "PUT",
@@ -13,12 +13,21 @@ function Schedule(props) {
     });
   }
 
+  const getShiftStart = (shiftStart) => {
+    let date = new Date(shiftStart);
+    let displayedString = "";
+    date.getHours() < 10 ? displayedString += "0" + date.getHours() : date.getHours();
+    displayedString += ":";
+    date.getMinutes() < 10 ? displayedString += "0" + date.getMinutes() : date.getMinutes();
+    return displayedString;
+  }
+
   return (
     <div>
       <table>
         <thead>
           <tr>
-            <th>Schedule option:</th>
+            <th></th>
             {schedule.map((entry) => (
               <th key={entry.id}>{new Date(entry.date).getDate()}</th>
             ))}
@@ -32,7 +41,7 @@ function Schedule(props) {
               </td>
               {schedule.map((entry) => (
                 <td key={`${employee.id}+${entry.date}`}>
-                  {entry.shifts.map(shift => shift.scheduledEmployees.some((worker => worker.name === employee.name)) ? "Work" : "Off")}
+                  {entry.shifts.map(shift => shift.scheduledEmployees.some((worker => worker.name === employee.name)) ? getShiftStart(shift.shiftStart) : "Off")}
                 </td>
               ))}
             </tr>
