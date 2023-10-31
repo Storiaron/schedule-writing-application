@@ -41,39 +41,46 @@ const Login = () => {
     }
   };
 
-  return loginStatus === "base" ? (
-    <div className='loginform'>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <div className='label'>
-            <label htmlFor="username">Username</label>
-          </div>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={handleUsernameChange}
-            onKeyDown={handleEnter}
-          />
-        </div>
+  const loginform = () => {
+    return  <div className='loginform'>
+    <h2>Login</h2>
+    <form onSubmit={handleSubmit}>
+      <div>
         <div className='label'>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="username">Username</label>
         </div>
         <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={handlePasswordChange}
+          type="text"
+          id="username"
+          value={username}
+          onChange={handleUsernameChange}
           onKeyDown={handleEnter}
         />
-        <button type="submit">Login</button>
-      </form>
-    </div>
+      </div>
+      <div className='label'>
+        <label htmlFor="password">Password</label>
+      </div>
+      <input
+        type="password"
+        id="password"
+        value={password}
+        onChange={handlePasswordChange}
+        onKeyDown={handleEnter}
+      />
+      <button type="submit">Login</button>
+    </form>
+  </div>
+  }
+  return loginStatus === "base" ? (<div>
+   {loginform()}
+   </div>
   ) : loginStatus === "success" ? (
 <div className='loginform'>Login Succesful</div>
   ) : (
+<div>
 <div className='loginform'>Something went wrong, please try again</div>
+  {loginform()}
+</div>
   );
 };
 
