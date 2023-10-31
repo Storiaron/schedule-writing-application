@@ -15,7 +15,20 @@ const Login = () => {
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   }
-
+  const fetchRole = async () => {
+    const response = await fetch("/api/employee/role", {
+      method: 'POST',
+      headers: {
+        'Authorization': localStorage.getItem('token'),
+        'Content-Type': 'application/json',
+    },
+      body: JSON.stringify({"username" : username})  
+  })
+  if(response.ok){
+    const role = await response.json();
+    localStorage.setItem("role", role)
+  }
+  }
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await fetch("/login", {
@@ -31,6 +44,7 @@ const Login = () => {
       localStorage.setItem("token", token)
       localStorage.setItem("username", username)
       setLoginStatus("success")
+      fetchRole();
       }
       else {
         setLoginStatus("error");
