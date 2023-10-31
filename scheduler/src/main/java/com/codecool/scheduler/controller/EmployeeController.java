@@ -24,7 +24,6 @@ public class EmployeeController {
     public void addEmployee(@RequestBody EmployeeDTO employeeDTO){
         employeeService.addEmployee(employeeDTO);
     }
-
     @GetMapping("")
     public List<Employee> getAllEmployees(){
         return employeeService.getAllEmployees();
