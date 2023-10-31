@@ -27,7 +27,7 @@ public class EmployeeService {
         employee.setName(employeeDTO.getUsername());
         employee.setRole(employeeDTO.getRole());
         employee.setHoursPerMonth(employeeDTO.getHoursPerMonth());
-        employee.setPassword(employee.getPassword());
+        employee.setPassword(employeeDTO.getPassword());
         employeeRepository.save(employee);
     }
     public Role getRoleForEmployee(EmployeeDTO employeeDTO){
