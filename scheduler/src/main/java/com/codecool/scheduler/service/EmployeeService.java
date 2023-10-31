@@ -24,6 +24,9 @@ public class EmployeeService {
     public void addEmployee(EmployeeDTO employeeDTO){
         Employee employee = new Employee();
         employee.setName(employeeDTO.getUsername());
+        employee.setRole(employeeDTO.getRole());
+        employee.setHoursPerMonth(employeeDTO.getHoursPerMonth());
+        employee.setPassword(employee.getPassword());
         employeeRepository.save(employee);
     }
     public Employee loginEmployee(EmployeeDTO employeeDTO){

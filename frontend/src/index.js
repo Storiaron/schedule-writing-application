@@ -10,6 +10,7 @@ import DayOffRequest from "./components/employeeComponents/DayOffRequest";
 import ScheduleRequest from "./components/employerComponents/ScheduleRequest";
 import DailyRequirements from "./components/employerComponents/DailyRequirements";
 import Employee from "./components/employeeComponents/Employee";
+import Register from "./components/employerComponents/Register";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />
       },
       {
         path: "/admin",

@@ -11,5 +11,6 @@ import lombok.Setter;
 public class EmployeeDTO {
     private String username;
     private String password;
+    private int hoursPerMonth;
     private Role role;
 }
