@@ -2,6 +2,7 @@ package com.codecool.scheduler.service;
 
 import com.codecool.scheduler.dto.EmployeeDTO;
 import com.codecool.scheduler.model.Employee;
+import com.codecool.scheduler.model.Role;
 import com.codecool.scheduler.repository.EmployeeRepository;
 import com.codecool.scheduler.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,13 @@ public class EmployeeService {
     public void addEmployee(EmployeeDTO employeeDTO){
         Employee employee = new Employee();
         employee.setName(employeeDTO.getUsername());
+        employee.setRole(employeeDTO.getRole());
+        employee.setHoursPerMonth(employeeDTO.getHoursPerMonth());
+        employee.setPassword(employee.getPassword());
         employeeRepository.save(employee);
+    }
+    public Role getRoleForEmployee(EmployeeDTO employeeDTO){
+        return employeeRepository.findByName(employeeDTO.getUsername()).getRole();
     }
     public Employee loginEmployee(EmployeeDTO employeeDTO){
         return employeeRepository.findByName(employeeDTO.getUsername());

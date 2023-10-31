@@ -3,6 +3,7 @@ package com.codecool.scheduler.controller;
 import com.codecool.scheduler.dto.EmployeeDTO;
 import com.codecool.scheduler.dto.LoginDTO;
 import com.codecool.scheduler.model.Employee;
+import com.codecool.scheduler.model.Role;
 import com.codecool.scheduler.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,10 @@ public class EmployeeController {
     @GetMapping("")
     public List<Employee> getAllEmployees(){
         return employeeService.getAllEmployees();
+    }
+    @PostMapping("/role")
+    public Role getRole(@RequestBody EmployeeDTO employeeDTO){
+        return employeeService.getRoleForEmployee(employeeDTO);
     }
     @GetMapping("/{employeeName}")
     public Employee getEmployee(@PathVariable String employeeName){
