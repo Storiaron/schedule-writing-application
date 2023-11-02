@@ -27,6 +27,6 @@ public class TwelveHourScheduleWriter extends ScheduleWriter{
         return availableEmployees;
     }
     protected boolean isBelowLimit(Employee employee, Day day, int streakLimit){
-        return schedule.getContinuousWorkDays(employee, day) < streakLimit;
+        return schedule.getContinuousWorkDays(employee, day) <= streakLimit;
     }
 }

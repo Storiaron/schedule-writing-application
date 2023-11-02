@@ -45,7 +45,7 @@ public class Schedule {
     }
     public int getContinuousWorkDays(Employee employee, Day day){
         int counter = 1;
-        for(int i = 1; i < schedule.size(); i++){
+        for(int i = 1; i <= schedule.size(); i++){
             if(getWithDate(day.getDate().minusDays(i), employee)){
                 counter++;
             }
