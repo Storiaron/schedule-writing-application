@@ -23,12 +23,20 @@ public class EmployeeService {
     }
 
     public void addEmployee(EmployeeDTO employeeDTO){
-        Employee employee = new Employee();
-        employee.setName(employeeDTO.getUsername());
-        employee.setRole(employeeDTO.getRole());
-        employee.setHoursPerMonth(employeeDTO.getHoursPerMonth());
-        employee.setPassword(employeeDTO.getPassword());
-        employeeRepository.save(employee);
+        if(employeeRepository.findByName(employeeDTO.getUsername()) == null) {
+            Employee employee = new Employee();
+            employee.setName(employeeDTO.getUsername());
+            employee.setRole(employeeDTO.getRole());
+            employee.setHoursPerMonth(employeeDTO.getHoursPerMonth());
+            employee.setPassword(employeeDTO.getPassword());
+            employeeRepository.save(employee);
+        }
+        else {
+            Employee employee = employeeRepository.findByName(employeeDTO.getUsername());
+            employee.setPassword(employeeDTO.getPassword());
+            employee.setRole(employeeDTO.getRole());
+            employee.setHoursPerMonth(employeeDTO.getHoursPerMonth());
+        }
     }
     public Role getRoleForEmployee(EmployeeDTO employeeDTO){
         return employeeRepository.findByName(employeeDTO.getUsername()).getRole();
