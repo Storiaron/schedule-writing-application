@@ -2,6 +2,7 @@
 ## Table of Contents
 - [Description](#description)
 - [Project Description](#project-description)
+- [Setup](#setup)
 - [How To Use](#how-to-use)
 - [Technologies Used](#technologies-used)
 - [Coming Soon](#coming-soon)
@@ -16,8 +17,23 @@ The project is currently in development, with only the base functionality and co
 ### Current Schedule Types:
 * Default: Employees work 8 hours a day, each day has only one shift. No limit on the amount of days someone can work in a row. Only schedules enough people to meet minimum count.
 * 12h, single shift: Employees work 12 hours a day, each day has only one shift. Limited to maximum 4 days in a row. Only schedules enough people to meet minimum count.
+## Setup
+### Prerequisites
+Have Maven and Node.js installed 
+
+1.a Navigate to the scheduler folder and create a build.
+1.b Download the latest release.
+2. Set the following environment variables: DB_USER, PASSWORD, SECRET_KEY
+3. Run the .jar file
+```
+java -jar <YOUR_BUILD_NAME>.jar
+```
+In a separate terminal navigate to the frontend folder.
+```
+npm i
+npm start
+``` 
 ## How To Use
-(placeholder for the installation process)
 1. Add new employees, at least one should be "Admin". The corresponding endpoint allows free access for demo and testing purposes.
 2. Login and send day-off requests if you wish.
 3. Log into an "Admin" employee's account, navigate to the "daily requirements" page and submit how many shifts, min employees, etc. each day should have and submit.
