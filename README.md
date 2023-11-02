@@ -19,12 +19,14 @@ The project is currently in development, with only the base functionality and co
 * 12h, single shift: Employees work 12 hours a day, each day has only one shift. Limited to maximum 4 days in a row. Only schedules enough people to meet minimum count.
 ## Setup
 ### Prerequisites
-Have Maven and Node.js installed 
-
-1.a Navigate to the scheduler folder and create a build.
-1.b Download the latest release.
-2. Set the following environment variables: DB_USER, PASSWORD, SECRET_KEY
-3. Run the .jar file
+#### Have Maven(or intellij) and Node.js installed 
+1. Navigate to the scheduler folder and create a build
+```
+mvn package
+```
+2. Or download the latest release.
+4. Set the following environment variables: DB_USER, PASSWORD, SECRET_KEY
+5. Run the .jar file
 ```
 java -jar <YOUR_BUILD_NAME>.jar
 ```
