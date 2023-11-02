@@ -1,4 +1,4 @@
-# Shift scheduler
+# Shift Scheduler
 ## Table of Contents
 - [Description](#description)
 - [Project Description](#project-description)
@@ -19,7 +19,7 @@ The project is currently in development, with only the base functionality and co
 * 12h, single shift: Employees work 12 hours a day, each day has only one shift. Limited to maximum 4 days in a row. Only schedules enough people to meet minimum count.
 ## Setup
 ### Prerequisites
-#### Have Maven(or intellij) and Node.js installed 
+#### Have Maven(or intellij) and Node.js installed. Create a postgresql database named schedule_writer 
 1. Navigate to the scheduler folder and create a build
 ```
 mvn package
