@@ -6,6 +6,7 @@ function DailyRequirements() {
   const [date, setDate] = useState(new Date());
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [shiftStart, setShiftStart] = useState([]);
   const [shiftEnd, setShiftEnd] = useState([]);
   const [minEmployees, setMinEmployees] = useState([]);
@@ -73,7 +74,6 @@ function DailyRequirements() {
         shifts: createShifts(),
       };
     }
-    console.log(requestData);
     fetch("/api/schedule", {
       method: "POST",
       headers: {
@@ -82,6 +82,7 @@ function DailyRequirements() {
       },
       body: JSON.stringify(requestData),
     });
+    setIsSubmitted(true);
   };
 
   const addShift = () => {
@@ -101,19 +102,23 @@ function DailyRequirements() {
         <input
           type="number"
           min={1}
+          placeholder={1}
           onChange={(e) => handleMinEmployeeChange(e, i)}
         />
         <label>Preferred employees:</label>
         <input
           type="number"
           min={minEmployees}
+          placeholder={1}
           onChange={(e) => handlePreferredEmployeeChange(e, i)}
         />
       </div>
     );
   }
 
-  return (
+  return isSubmitted ? (
+    <div>
+    <div>Succesfully Submitted! Anything else?</div>
     <div>
       <DatePicker
         placeholderText="select a date"
@@ -127,7 +132,20 @@ function DailyRequirements() {
       <button onClick={addShift}>Add Shift</button>
       <button onClick={handleSubmit}>Submit</button>
     </div>
-  );
+    </div>
+  ) : <div>
+  <DatePicker
+    placeholderText="select a date"
+    selected={date}
+    onChange={handleChange}
+    startDate={startDate}
+    endDate={endDate}
+    selectsRange
+  />
+  {shiftSelectors}
+  <button onClick={addShift}>Add Shift</button>
+  <button onClick={handleSubmit}>Submit</button>
+</div>;
 }
 
 export default DailyRequirements;

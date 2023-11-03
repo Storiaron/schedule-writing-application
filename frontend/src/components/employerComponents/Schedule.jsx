@@ -16,9 +16,9 @@ function Schedule(props) {
   const getShiftStart = (shiftStart) => {
     let date = new Date(shiftStart);
     let displayedString = "";
-    date.getHours() < 10 ? displayedString += "0" + date.getHours() : date.getHours();
+    date.getHours() < 10 ? displayedString += "0" + date.getHours() : displayedString += date.getHours();
     displayedString += ":";
-    date.getMinutes() < 10 ? displayedString += "0" + date.getMinutes() : date.getMinutes();
+    date.getMinutes() < 10 ? displayedString += "0" + date.getMinutes() : displayedString += date.getMinutes();
     return displayedString;
   }
 
