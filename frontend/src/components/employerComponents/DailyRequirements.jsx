@@ -96,8 +96,6 @@ function DailyRequirements() {
       <div key={i}>
         <label>Shift start</label>
         <input type="time" onChange={(e) => handleShiftStartChange(e, i)} />
-        <label>Shift end</label>
-        <input type="time" onChange={(e) => handleShiftEndChange(e, i)} />
         <label>Min employees:</label>
         <input
           type="number"

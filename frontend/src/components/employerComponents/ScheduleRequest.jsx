@@ -53,6 +53,7 @@ function ScheduleRequest(){
     }
     return options ? (
         <div>
+          <div className="date-pick-wrapper">
           <label>Select a schedule option and date:</label>
           <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
             <option value="">Select an option</option>
@@ -62,8 +63,10 @@ function ScheduleRequest(){
               </option>
             ))}
           </select>
+          
           <DatePicker selected={date} onChange={date => setDate(date)} />
-          <input type="submit" value="Generate schedule" onClick={(e) => handleSubmit(e)}/>
+          <button onClick={handleSubmit}>generate schedule</button>
+          </div>
           {schedule ? <Schedule schedule={schedule} scheduleId={scheduleId} employees={employees}/> : <></>}
         </div>
       ) : <div>Loading, please wait...</div>;
