@@ -25,8 +25,8 @@ The project is currently in development, with only the base functionality and co
 mvn package
 ```
 2. Or download the latest release.
-4. Set the following environment variables: DB_USER, PASSWORD, SECRET_KEY
-5. Run the .jar file
+3. Set the following environment variables: DB_USER, PASSWORD, SECRET_KEY
+4. Run the .jar file
 ```
 java -jar <YOUR_BUILD_NAME>.jar
 ```
