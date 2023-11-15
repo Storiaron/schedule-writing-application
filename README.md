@@ -19,7 +19,7 @@ The project is currently in development, with only the base functionality and co
 * 12h, single shift: Employees work 12 hours a day, each day has only one shift. Limited to maximum 4 days in a row. Only schedules enough people to meet minimum count.
 ## Setup
 ### Prerequisites
-#### Have Maven(or intellij) and Node.js installed. Create a postgresql database named schedule_writer 
+#### Have Maven and Java 17+ (or intellij) and Node.js installed. Create a postgresql database named schedule_writer 
 1. Navigate to the scheduler folder and create a build
 ```
 mvn package
@@ -45,6 +45,7 @@ npm start
 * React.js
 * PostgreSQL
 * Spring Boot
+* Java
 ## Coming Soon
 1. More complex schedule types, like schedules with multiple shifts, a utility score based schedule and many more.
 2. Proper design and styling for the entire frontend.
